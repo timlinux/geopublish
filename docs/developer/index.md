@@ -66,12 +66,20 @@ then commit both the `.svg` source and the regenerated `.png`.
 ## Session transcript
 
 `docs/transcript.md` is a record of every prompt that built this
-project, each annotated with the requirement/fix it introduced, plus
-`docs/diagrams/requirements-timeline.svg` tracing the distinct ones as
-one diagram. `gp docs-pdf` / `nix run .#docs-pdf` renders the transcript
-page to `transcript.pdf` (pandoc -> HTML -> weasyprint; gitignored, not
+project, each annotated with the requirement/fix it introduced and
+**a diagram after every entry** -- a milestone prompt (one that has a
+real mechanism diagram elsewhere, e.g. `architecture.svg`,
+`collab-table.svg`) reuses that image; everything else gets a small
+UML-stereotyped card, `docs/diagrams/prompt-NN.svg` (`«requirement»`/
+`«fix»`/`«note»` + a one-line label -- see any one of them for the
+template). `docs/diagrams/requirements-timeline.svg` separately traces
+just the distinct requirements/fixes as one overview diagram.
+`gp docs-pdf` / `nix run .#docs-pdf` renders the transcript page to
+`transcript.pdf` (pandoc -> HTML -> weasyprint; gitignored, not
 committed). Append to the transcript as new substantive prompts come in
--- it's a log, not something to rewrite.
+-- it's a log, not something to rewrite -- and add that prompt's
+diagram (reuse an existing one, or copy a `prompt-NN.svg` as the
+template for a new card) in the same commit.
 
 ## Docs theme
 

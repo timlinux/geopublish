@@ -107,6 +107,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 
 ### Fixed
 
+- `docs/transcript.md`'s requirements-timeline was linked, not embedded
+  as an image -- genuinely invisible on the page. More substantially,
+  one consolidated timeline covering the whole session wasn't what was
+  wanted: every prompt now gets its own diagram after its entry --
+  milestone prompts reuse the real mechanism diagram built for that
+  feature (`architecture.png`, `collab-table.png`, etc.); everything
+  else gets a small generated UML-stereotyped card,
+  `docs/diagrams/prompt-NN.svg` (35 of them). `requirements-timeline.svg`
+  stays as a separate overview, not the only diagram.
 - `geopublish publish pdf-vectors` reported `0 points, 0 lines, 0
   polygons` with no explanation on a page whose map content turns out to
   be an embedded raster image rather than vector paths (confirmed on the
