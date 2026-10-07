@@ -60,6 +60,20 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
   API key) and updates `temperature`/`temperature_updated_at` in place.
   One city's fetch failing doesn't stop the rest; the command reports
   how many succeeded and how many failed.
+- `geopublish publish pdf-vectors` / `gp publish pdf-vectors`: extracts
+  point/line/polygon geometry directly from a PDF's drawing commands
+  (classified by fill: filled -> polygon, unfilled-stroked -> line, very
+  small -> point) and loads it into shared `points`/`lines`/`polygons`
+  tables, as a lighter-to-query alternative to `prepare pdf-to-geotiff`'s
+  raster. Reuses the same frame/corner-coordinate detection, so
+  `--utm-zone`/`--srid` match `pdf-to-geotiff`'s `--utm-zone`/`--srs`.
+  The nearest printed text label (words merged into lines by proximity,
+  matched within a kind-specific radius) is attached as `label`; no
+  close-enough text leaves it `NULL` rather than guessing. Rows
+  accumulate across every PDF/page processed, tagged with
+  `source_pdf`/`source_page`; one bad page is reported and skipped.
+  Adds `docs/diagrams/pdf-vector-tables.svg`, a side-by-side UML diagram
+  of the three (identical shape, differing only in `geom`'s type).
 - Docs site now uses the Kartoza Brand Pack v0.1 theme (logo, favicon,
   Nunito/JetBrains Mono fonts, light/dark palette, flat admonitions and
   tables), vendored from `kartoza/InfrastructureMapper` so every Kartoza

@@ -30,6 +30,11 @@ viewable in QGIS without typing credentials into QGIS itself.
 7. **As a workshop participant**, I want a world capitals layer with a
    live temperature attribute, refreshable with one command, without
    signing up for a weather API key.
+8. **As a workshop participant**, I want a PDF plan sheet's actual vector
+   geometry (not a raster of it) in PostGIS as proper points/lines/
+   polygons, with whatever printed annotation is nearby attached as an
+   attribute, since vector features are lighter to query than a raster
+   scan of the same drawing.
 
 ## Out of scope (v0.1)
 
@@ -139,6 +144,47 @@ place; a single city's fetch failing doesn't stop the rest.
 
 Diagram source: `docs/diagrams/capitals-table.svg`.
 
+### `points` / `lines` / `polygons`
+
+Vector geometry extracted directly from a PDF plan sheet's drawing
+commands (`geopublish publish pdf-vectors`), as an alternative to
+publishing it as a raster. Shared across every PDF processed — rows
+accumulate rather than being replaced, with `source_pdf`/`source_page`
+identifying where each one came from.
+
+![UML class diagrams of the points, lines, and polygons tables, side by side: identical id/source_pdf/source_page/label columns, differing only in the geom column's geometry type.](docs/diagrams/pdf-vector-tables.png)
+
+All three share the same shape, differing only in `geom`'s geometry type:
+
+| Column | Type | Description |
+|---|---|---|
+| `id` | `serial` | Primary key, assigned on insert. |
+| `source_pdf` | `text` | File name the row came from. |
+| `source_page` | `integer` | Page number within that PDF. |
+| `label` | `text` | Nearest printed text label, best-effort (see below). `NULL` if nothing was close enough. |
+| `geom` | `geometry(Point\|LineString\|Polygon, <srid>)` | `--srid` (default `25832`), using the same frame/corner-coordinate detection as `prepare pdf-to-geotiff`. |
+
+**Classification** is by how each path is drawn, not by guessing intent:
+a filled shape is a `polygon` (e.g. a building); an unfilled stroked path
+is a `line` (e.g. a parcel boundary or road); a path whose bounding box
+is very small (a vertex marker, under 10pt diagonal) is a `point`,
+regardless of fill. This project does not attempt to reconstruct closed
+parcel polygons from a network of shared boundary *lines* — Natural Earth
+real-world cadastral exports draw boundaries as a planar graph of edges,
+not one closed ring per parcel, and dissolving that network into faces is
+a separate, harder problem than this command takes on.
+
+**Label matching** is nearest-text-line-to-bbox-centre, within a
+kind-specific radius (12pt for points, 80pt for lines/polygons — tight
+for points so a distant parcel number doesn't get misattributed to every
+vertex marker along a boundary). `pdftotext -bbox` reports individual
+words with no line grouping, so words are first merged into lines by
+proximity (same baseline, small horizontal gap) before matching. This is
+a heuristic, not a layout parser — a feature with no sufficiently close
+text gets `label = NULL` rather than a wrong guess.
+
+Diagram source: `docs/diagrams/pdf-vector-tables.svg`.
+
 ## Functional requirements
 
 | ID | Requirement |
@@ -152,6 +198,7 @@ Diagram source: `docs/diagrams/capitals-table.svg`.
 | FR7 | `geopublish docs-serve` (alias `gp docs-serve`) serves the mkdocs site locally, including this specification. |
 | FR8 | `geopublish prepare pdf-to-geotiff <pdf-or-folder> --output-dir <dir>` rasterizes each page of each PDF, clips it to its drawn map frame, and georeferences it to a GeoTIFF. The frame (PDF-point bbox) is detected from the largest non-full-page `fill="none"` rectangle in the page's SVG export; the real-world bbox is detected from printed zone-prefixed-easting/northing text labels (German decimal-comma format). `--utm-zone`/`--srs` override the default (zone 32, EPSG:25832). A sheet missing its coordinate labels is reported as failed without aborting the rest of a batch. |
 | FR9 | `geopublish capitals load` loads the world's national capitals (Natural Earth, public domain, no API key) into a `capitals` table. `geopublish capitals refresh-weather` fetches each row's current temperature from Open-Meteo (free, no API key) and updates `temperature`/`temperature_updated_at` in place; one city's fetch failing doesn't stop the rest. |
+| FR10 | `geopublish publish pdf-vectors <pdf-or-folder>` extracts point/line/polygon geometry directly from a PDF's drawing commands (classified by fill: filled → polygon, unfilled-stroked → line, very small → point) and loads it into shared `points`/`lines`/`polygons` tables, with `--srid`/`--utm-zone` matching `prepare pdf-to-geotiff`. The nearest printed text label (words merged into lines by proximity, then matched within a kind-specific radius) is attached as `label`; a feature with no close-enough text gets `label = NULL`. One bad page doesn't abort the rest of a batch. |
 
 ## Non-functional requirements
 
@@ -176,6 +223,13 @@ Diagram source: `docs/diagrams/capitals-table.svg`.
   points-to-pixels conversion, against fixtures trimmed from a real plan
   sheet's SVG/bbox export, without needing a live `pdftocairo`/`gdal_translate`
   call per test run.
+- `tests/test_pdfvectors.py` — path classification (point/line/polygon),
+  label-line merging and nearest-label matching, and the DB-loading
+  insert/skip logic, against synthetic SVG/bbox fixtures plus a mocked
+  connection -- no live `pdftocairo`/database call per test run. Also
+  `tests/test_capitals.py` for `parse_temperature` (against a real
+  captured Open-Meteo response) and `refresh_weather`'s per-city failure
+  handling.
 
 ## Documentation
 

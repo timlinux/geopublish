@@ -8,7 +8,8 @@ import click
 from geopublish.capitals import load_capitals, refresh_weather
 from geopublish.config import load_config
 from geopublish.db import ensure_postgis, list_layers
-from geopublish.pdfmap import batch_convert
+from geopublish.pdfmap import batch_convert, discover_pdfs, page_count
+from geopublish.pdfvectors import extract_vector_features, load_features
 from geopublish.raster import publish_raster
 from geopublish.vector import publish_vector
 
@@ -68,6 +69,64 @@ def publish_raster_cmd(source, table, schema, srid, tile_size, append_) -> None:
         overwrite=not append_,
     )
     click.echo(f"published raster {source} -> {schema}.{table}")
+
+
+@publish.command("pdf-vectors")
+@click.argument("source", type=click.Path(exists=True, path_type=Path))
+@click.option(
+    "--page",
+    "pages",
+    type=int,
+    multiple=True,
+    help="Restrict to this page number (repeatable). Default: every page.",
+)
+@click.option(
+    "--utm-zone",
+    type=int,
+    default=32,
+    show_default=True,
+    help="UTM zone used to decode zone-prefixed easting labels.",
+)
+@click.option("--srid", type=int, default=25832, show_default=True)
+def publish_pdf_vectors_cmd(source, pages, utm_zone, srid) -> None:
+    """Extract point/line/polygon geometry from PDF plan sheet(s) and load
+    it into shared points/lines/polygons tables.
+
+    SOURCE is a single PDF or a directory of PDFs (batch mode). Geometry
+    is classified by how it's drawn -- a filled shape is a polygon, an
+    unfilled stroked path is a line, a very small shape (e.g. a vertex
+    marker) is a point -- and projected to real-world coordinates using
+    the same frame/corner-coordinate detection as 'prepare pdf-to-geotiff'.
+    The nearest printed text label is attached as a best-effort
+    annotation. One bad page doesn't abort the rest of a batch.
+    """
+    total = {"point": 0, "line": 0, "polygon": 0}
+    failed = 0
+    config = load_config()
+    for pdf in discover_pdfs(source):
+        page_numbers = list(pages) or list(range(1, page_count(pdf) + 1))
+        for page in page_numbers:
+            try:
+                features = extract_vector_features(pdf, page=page, zone=utm_zone)
+                loaded = load_features(
+                    config, features, source_pdf=pdf.name, source_page=page, srid=srid
+                )
+            except Exception as exc:
+                click.echo(f"FAILED {pdf.name} page {page}: {exc}", err=True)
+                failed += 1
+                continue
+            for kind, count in loaded.items():
+                total[kind] += count
+            click.echo(
+                f"{pdf.name} page {page}: "
+                f"{loaded['point']} points, {loaded['line']} lines, {loaded['polygon']} polygons"
+            )
+    click.echo(
+        f"loaded {total['point']} points, {total['line']} lines, "
+        f"{total['polygon']} polygons ({failed} page(s) failed)"
+    )
+    if failed and not any(total.values()):
+        raise SystemExit(1)
 
 
 @cli.command()

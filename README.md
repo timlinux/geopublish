@@ -63,6 +63,16 @@ different zone. If a sheet is missing at least two easting and two
 northing labels, that page is reported as failed and the rest of the
 batch still runs.
 
+A raster is slow to query compared to real vector features — to extract
+the PDF's actual points/lines/polygons instead:
+
+```bash
+gp publish pdf-vectors PLANS/some-plan.pdf   # or a folder, for batch mode
+```
+
+See the [user guide](docs/user/index.md#extracting-pdf-plan-sheets-as-vectors)
+for how classification and label-matching work.
+
 ## Collaboration layer
 
 A shared "drop a pin with your name" layer, EPSG:3857:
@@ -107,7 +117,7 @@ for details.
 flake.nix              Nix flake: devShell + apps (geopublish, gp, test, docs, format, lint)
 bin/geopublish          CLI entrypoint
 bin/gp                  Short alias for bin/geopublish
-src/geopublish/         Python package (cli, config, db, vector, raster, pdfmap, capitals)
+src/geopublish/         Python package (cli, config, db, vector, raster, pdfmap, pdfvectors, capitals)
 scripts/                Shell scripts backing the flake apps and dev-shell banner
 config/                 QGIS/psql service-file template
 tests/                  pytest suite

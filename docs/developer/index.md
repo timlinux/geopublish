@@ -22,6 +22,13 @@
   `/vsizip/vsicurl/` straight from Natural Earth's CDN, no download
   step), `refresh_weather`/`fetch_temperature` (Open-Meteo, stdlib
   `urllib`, no extra dependency).
+- `src/geopublish/pdfvectors.py` — PDF plan sheet → vector features:
+  classification by drawing style (`_classify_and_project`), text-line
+  reconstruction and nearest-label matching (`_extract_label_lines`,
+  `_nearest_label`), and the shared `points`/`lines`/`polygons` table
+  loader (`load_features`). Reuses `pdfmap.py`'s frame/corner-coordinate
+  detection rather than duplicating it — same PDF, same two detection
+  problems, solved once.
 
 ## `pg_notify` convention
 

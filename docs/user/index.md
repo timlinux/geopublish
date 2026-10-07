@@ -46,6 +46,31 @@ different zone. If a sheet is missing at least two easting and two
 northing labels, that page is reported as failed and the rest of the
 batch still runs.
 
+## Extracting PDF plan sheets as vectors
+
+A raster of a PDF plan is slow to query in PostGIS compared to real
+vector features. `gp publish pdf-vectors` reads the PDF's actual drawing
+commands instead of rasterizing it, and loads points/lines/polygons
+directly:
+
+```bash
+gp publish pdf-vectors PLANS/some-plan.pdf      # single PDF, every page
+gp publish pdf-vectors PLANS                     # a whole folder (batch mode)
+```
+
+Every PDF processed accumulates into the same three shared tables
+(`points`, `lines`, `polygons`) rather than replacing them —
+`source_pdf`/`source_page` on each row says where it came from. A shape
+is classified by how it's drawn: filled → `polygon`, unfilled stroked →
+`line`, very small (e.g. a vertex marker) → `point`. The nearest printed
+text label is attached as `label` on a best-effort basis — this is a
+proximity heuristic, not a layout parser, so some features will end up
+with `label = NULL` rather than a wrong guess.
+
+`--utm-zone`/`--srid` work the same as `prepare pdf-to-geotiff`'s
+`--utm-zone`/`--srs`. One bad page is reported and skipped; the rest of
+the batch still runs.
+
 ## Collaboration layer
 
 A shared "drop a pin with your name" layer, EPSG:3857:
