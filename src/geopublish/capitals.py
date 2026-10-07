@@ -46,6 +46,11 @@ def load_capitals(config: PgConfig, table: str = "capitals", schema: str = "publ
             f"{schema}.{table}",
             "-lco",
             "GEOMETRY_NAME=geom",
+            # ogr2ogr's PostgreSQL driver names its auto-generated primary
+            # key "ogc_fid" by default, not "id" -- refresh_weather() (and
+            # the GRANT/UML docs) assume "id", so force it here.
+            "-lco",
+            "FID=id",
             "-overwrite",
         ],
         check=True,

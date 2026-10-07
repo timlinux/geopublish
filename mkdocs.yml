@@ -2,15 +2,16 @@
 # SPDX-License-Identifier: MIT
 site_name: geopublish
 site_description: Publish vector and raster data to PostGIS, view in QGIS.
+site_url: https://timlinux.github.io/geopublish/
 site_author: Kartoza
 copyright: >
   &copy; Kartoza — Made with 💗 by
   <a href="https://kartoza.com">Kartoza</a>
   &middot; <a href="https://github.com/sponsors/kartoza">Donate</a>
-  &middot; <a href="https://github.com/kartoza/geopublish">GitHub</a>
+  &middot; <a href="https://github.com/timlinux/geopublish">GitHub</a>
 
-repo_url: https://github.com/kartoza/geopublish
-repo_name: kartoza/geopublish
+repo_url: https://github.com/timlinux/geopublish
+repo_name: timlinux/geopublish
 edit_uri: edit/main/docs/
 
 theme:
@@ -70,7 +71,7 @@ theme:
 extra:
   social:
     - icon: fontawesome/brands/github
-      link: https://github.com/kartoza/geopublish
+      link: https://github.com/timlinux/geopublish
       name: GitHub repository
     - icon: fontawesome/solid/heart
       link: https://github.com/sponsors/kartoza

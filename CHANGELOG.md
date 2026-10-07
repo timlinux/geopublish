@@ -107,6 +107,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 
 ### Fixed
 
+- `geopublish capitals load` created the `capitals` table with no `id`
+  column -- `ogr2ogr`'s PostgreSQL driver names its auto-generated
+  primary key `ogc_fid` by default, and nothing told it otherwise, so
+  `geopublish capitals refresh-weather`'s `SELECT id, ...` failed with
+  `psycopg2.errors.UndefinedColumn`. Added `-lco FID=id`. Re-run
+  `gp capitals load` to pick this up (it's `-overwrite`, so this
+  recreates the table correctly).
 - `docs/transcript.md`'s requirements-timeline was linked, not embedded
   as an image -- genuinely invisible on the page. More substantially,
   one consolidated timeline covering the whole session wasn't what was

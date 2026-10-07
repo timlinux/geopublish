@@ -4,7 +4,7 @@ from unittest.mock import MagicMock
 
 import pytest
 
-from geopublish.capitals import parse_temperature, refresh_weather
+from geopublish.capitals import load_capitals, parse_temperature, refresh_weather
 from geopublish.config import PgConfig
 
 # A real response captured from https://api.open-meteo.com/v1/forecast
@@ -32,6 +32,32 @@ def _config() -> PgConfig:
 
 def test_parse_temperature():
     assert parse_temperature(OPEN_METEO_RESPONSE) == 13.9
+
+
+def test_load_capitals_names_the_primary_key_id(monkeypatch):
+    # Regression test: ogr2ogr's PostgreSQL driver defaults its
+    # auto-generated primary key to "ogc_fid", not "id" -- without
+    # `-lco FID=id`, refresh_weather()'s `SELECT id, ...` fails with
+    # psycopg2.errors.UndefinedColumn.
+    calls = []
+    monkeypatch.setattr(
+        "geopublish.capitals.subprocess.run",
+        lambda cmd, **kwargs: calls.append(cmd),
+    )
+
+    conn = MagicMock()
+    conn.__enter__.return_value = conn
+    cursor = MagicMock()
+    conn.cursor.return_value.__enter__.return_value = cursor
+    monkeypatch.setattr("geopublish.capitals.connect", lambda config: conn)
+
+    load_capitals(_config())
+
+    (ogr2ogr_cmd,) = calls
+    lco_values = [
+        ogr2ogr_cmd[i + 1] for i, arg in enumerate(ogr2ogr_cmd) if arg == "-lco"
+    ]
+    assert "FID=id" in lco_values
 
 
 def test_refresh_weather_skips_failures_and_counts_both(monkeypatch):

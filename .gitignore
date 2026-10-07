@@ -25,5 +25,9 @@ geotiff/
 # screenshots
 screenshost-gitignore/
 
+# scratch scripts for commands that don't run directly in this session
+claude.sh
+claude.out
+
 # editor
 .DS_Store
