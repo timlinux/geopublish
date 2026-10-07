@@ -26,3 +26,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
   which broke `docs.sh`'s `cp` into `docs/specification.md` with "Read-only
   file system". They now resolve the repo root via `git rev-parse
   --show-toplevel` against the caller's working directory instead.
+- `geopublish status` crashed with a raw `UndefinedTable` traceback when run
+  against a database where `postgis_raster` (or `postgis`) hadn't been
+  created yet. It now raises a clear message pointing at `geopublish
+  init-db`, and the CLI entrypoint prints configuration/runtime errors as
+  a one-line message instead of a full traceback.

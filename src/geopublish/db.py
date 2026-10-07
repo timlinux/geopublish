@@ -1,6 +1,7 @@
 # SPDX-FileCopyrightText: 2026 Kartoza
 # SPDX-License-Identifier: MIT
 import psycopg2
+import psycopg2.errors
 
 from geopublish.config import PgConfig
 
@@ -27,6 +28,12 @@ def ensure_postgis(config: PgConfig) -> None:
 
 def list_layers(config: PgConfig) -> list[dict]:
     with connect(config) as conn, conn.cursor() as cur:
-        cur.execute(LIST_LAYERS_QUERY)
+        try:
+            cur.execute(LIST_LAYERS_QUERY)
+        except psycopg2.errors.UndefinedTable as exc:
+            raise RuntimeError(
+                "postgis/postgis_raster extensions aren't set up on "
+                f"{config.dbname}@{config.host} yet. Run 'geopublish init-db' first."
+            ) from exc
         columns = [desc[0] for desc in cur.description]
         return [dict(zip(columns, row)) for row in cur.fetchall()]

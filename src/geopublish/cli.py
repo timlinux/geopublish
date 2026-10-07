@@ -88,7 +88,10 @@ def docs_serve() -> None:
 
 
 def main() -> None:
-    cli()
+    try:
+        cli()
+    except RuntimeError as exc:
+        raise SystemExit(f"Error: {exc}")
 
 
 if __name__ == "__main__":
