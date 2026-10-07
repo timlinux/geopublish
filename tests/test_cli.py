@@ -35,6 +35,18 @@ def test_prepare_pdf_to_geotiff_help():
     assert "--utm-zone" in result.output
 
 
+def test_capitals_load_help():
+    result = CliRunner().invoke(cli, ["capitals", "load", "--help"])
+    assert result.exit_code == 0
+    assert "--table" in result.output
+
+
+def test_capitals_refresh_weather_help():
+    result = CliRunner().invoke(cli, ["capitals", "refresh-weather", "--help"])
+    assert result.exit_code == 0
+    assert "Open-Meteo" in result.output
+
+
 def test_status_without_config_fails_cleanly():
     result = CliRunner().invoke(cli, ["status"], env={"PGHOST": ""})
     assert result.exit_code != 0

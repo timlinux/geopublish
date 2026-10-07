@@ -36,3 +36,14 @@ Annotated list of every package the flake provisions, and why.
 No package in this project is sourced from PyPI or npm — everything above
 comes from nixpkgs. If a future dependency isn't available there, it should
 be added as a new Nix derivation before falling back to `pip`.
+
+## External data sources
+
+Not nixpkgs packages, but worth recording why each was picked: both are
+free, require no API key and no signup, so there's no account-setup
+hassle for workshop participants.
+
+| Source | License | Used by | Purpose |
+|---|---|---|---|
+| [Natural Earth](https://www.naturalearthdata.com) `ne_10m_populated_places_simple` | Public domain | `geopublish capitals load` | World capital cities (`adm0cap = 1`), fetched directly over HTTP via GDAL's `/vsizip/vsicurl/` — no separate download step, no dependency beyond `gdal` itself. |
+| [Open-Meteo](https://open-meteo.com) `/v1/forecast` | Free for commercial and non-commercial use (attribution appreciated: "Weather data by Open-Meteo.com") | `geopublish capitals refresh-weather` | Current temperature by latitude/longitude. Plain HTTPS GET via Python's stdlib `urllib` — no extra package needed. |

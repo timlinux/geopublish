@@ -1,0 +1,41 @@
+<!-- SPDX-FileCopyrightText: 2026 Kartoza -->
+<!-- SPDX-License-Identifier: MIT -->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 420 300" font-family="Helvetica, Arial, sans-serif">
+  <rect x="0" y="0" width="420" height="300" fill="#ffffff"/>
+
+  <g>
+    <rect x="20" y="20" width="380" height="260" fill="#eef3f8" stroke="#2b3a55" stroke-width="1.5"/>
+    <rect x="20" y="20" width="380" height="34" fill="#2b3a55"/>
+    <text x="210" y="43" text-anchor="middle" font-size="14" font-weight="700" fill="#ffffff">capitals</text>
+
+    <line x1="20" y1="54" x2="400" y2="54" stroke="#2b3a55" stroke-width="1"/>
+
+    <text x="32" y="75" font-size="12" font-weight="700" fill="#2b3a55">PK</text>
+    <text x="64" y="75" font-size="12" fill="#1c2a40">id</text>
+    <text x="390" y="75" text-anchor="end" font-size="12" fill="#55607a">serial</text>
+    <line x1="20" y1="86" x2="400" y2="86" stroke="#c3cdde" stroke-width="1"/>
+
+    <text x="64" y="106" font-size="12" fill="#1c2a40">name</text>
+    <text x="390" y="106" text-anchor="end" font-size="12" fill="#55607a">text</text>
+    <line x1="20" y1="117" x2="400" y2="117" stroke="#c3cdde" stroke-width="1"/>
+
+    <text x="64" y="137" font-size="12" fill="#1c2a40">country</text>
+    <text x="390" y="137" text-anchor="end" font-size="12" fill="#55607a">text</text>
+    <line x1="20" y1="148" x2="400" y2="148" stroke="#c3cdde" stroke-width="1"/>
+
+    <text x="64" y="168" font-size="12" fill="#1c2a40">iso_a2</text>
+    <text x="390" y="168" text-anchor="end" font-size="12" fill="#55607a">text</text>
+    <line x1="20" y1="179" x2="400" y2="179" stroke="#c3cdde" stroke-width="1"/>
+
+    <text x="64" y="199" font-size="12" fill="#1c2a40">geom</text>
+    <text x="390" y="199" text-anchor="end" font-size="12" fill="#55607a">geometry(Point,4326)</text>
+    <line x1="20" y1="210" x2="400" y2="210" stroke="#c3cdde" stroke-width="1"/>
+
+    <text x="64" y="230" font-size="12" fill="#1c2a40">temperature</text>
+    <text x="390" y="230" text-anchor="end" font-size="12" fill="#55607a">double precision</text>
+    <line x1="20" y1="241" x2="400" y2="241" stroke="#c3cdde" stroke-width="1"/>
+
+    <text x="64" y="261" font-size="12" fill="#1c2a40">temperature_updated_at</text>
+    <text x="390" y="261" text-anchor="end" font-size="12" fill="#55607a">timestamptz</text>
+  </g>
+</svg>

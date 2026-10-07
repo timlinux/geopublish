@@ -18,6 +18,10 @@
   reversible `pg_notify` wiring, and their QGIS Layer Definitions; not
   wired into the CLI since they're specific named tables, not a generalized
   feature.
+- `src/geopublish/capitals.py` — world capitals: `load_capitals` (GDAL
+  `/vsizip/vsicurl/` straight from Natural Earth's CDN, no download
+  step), `refresh_weather`/`fetch_temperature` (Open-Meteo, stdlib
+  `urllib`, no extra dependency).
 
 ## `pg_notify` convention
 

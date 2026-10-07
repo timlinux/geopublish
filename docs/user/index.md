@@ -116,9 +116,20 @@ command psql -f sql/drop_collab_buffer_view.sql
 
 removes it and restores the points-only notify behaviour.
 
+## World capitals + live temperature
+
+Both data sources below are free and need no API key or signup.
+
 ```bash
-command psql -f sql/drop_collab_buffer_view.sql
+gp capitals load                 # once: load ~200 national capitals (Natural Earth)
+gp capitals refresh-weather      # repeatable: fetch current temperature (Open-Meteo)
 ```
+
+`capitals load` overwrites the table, so it's meant to run once (or
+whenever you want to reset it) — re-running `refresh-weather` afterwards
+is what keeps `temperature`/`temperature_updated_at` current. A single
+city's fetch failing (network blip, rate limit) doesn't stop the rest; the
+command reports how many succeeded and how many failed.
 
 ## Viewing in QGIS
 

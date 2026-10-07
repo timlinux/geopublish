@@ -79,6 +79,18 @@ hidden/read-only). It points at the `workshop` PG service by name, so it
 carries no embedded credentials — anyone with the same
 `config/pg_service.conf` set up can load it straight away.
 
+## World capitals + live temperature
+
+Free, no API key needed for either data source:
+
+```bash
+gp capitals load             # once: ~200 national capitals (Natural Earth)
+gp capitals refresh-weather  # repeatable: current temperature (Open-Meteo)
+```
+
+See the [user guide](docs/user/index.md#world-capitals--live-temperature)
+for details.
+
 ## Viewing in QGIS
 
 1. Copy `config/pg_service.conf.example` to `config/pg_service.conf` and fill
@@ -95,7 +107,7 @@ carries no embedded credentials — anyone with the same
 flake.nix              Nix flake: devShell + apps (geopublish, gp, test, docs, format, lint)
 bin/geopublish          CLI entrypoint
 bin/gp                  Short alias for bin/geopublish
-src/geopublish/         Python package (cli, config, db, vector, raster, pdfmap)
+src/geopublish/         Python package (cli, config, db, vector, raster, pdfmap, capitals)
 scripts/                Shell scripts backing the flake apps and dev-shell banner
 config/                 QGIS/psql service-file template
 tests/                  pytest suite

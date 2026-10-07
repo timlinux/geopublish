@@ -51,6 +51,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
   has no change events of its own to trigger on; `qgis/layers/
   collab_buffer_100km.qlr` shares the styled, notify-wired layer.
   `sql/drop_collab_buffer_view.sql` reverts just this addition.
+- `geopublish capitals load` / `gp capitals load`: loads the world's
+  ~200 national capitals from Natural Earth (public domain, no API key,
+  fetched directly via GDAL's `/vsizip/vsicurl/`, no download step) into
+  a `capitals` table.
+- `geopublish capitals refresh-weather` / `gp capitals refresh-weather`:
+  fetches each capital's current temperature from Open-Meteo (free, no
+  API key) and updates `temperature`/`temperature_updated_at` in place.
+  One city's fetch failing doesn't stop the rest; the command reports
+  how many succeeded and how many failed.
 - Diagrams are now hand-authored SVG (`docs/diagrams/*.svg`) rendered to
   PNG via Inkscape (`nix run .#diagrams` / `scripts/render-diagrams.sh`),
   not Mermaid -- `architecture.svg` replaces the old Mermaid flowchart in

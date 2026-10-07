@@ -27,6 +27,9 @@ viewable in QGIS without typing credentials into QGIS itself.
    sheets (e.g. utility "Netzauskunft" exports with printed corner
    coordinates) and get back georeferenced GeoTIFFs, without manually
    picking ground control points for each one.
+7. **As a workshop participant**, I want a world capitals layer with a
+   live temperature attribute, refreshable with one command, without
+   signing up for a weather API key.
 
 ## Out of scope (v0.1)
 
@@ -108,6 +111,34 @@ on the same channel, for a layer built on this view to opt into via
 `qgis/layers/collab_buffer_100km.qlr`. `sql/drop_collab_buffer_view.sql`
 drops the view and reverts the trigger to the single-payload version.
 
+### `capitals`
+
+World national capitals (`geopublish capitals load`), with a live
+temperature kept current by `geopublish capitals refresh-weather`. Both
+data sources are free and require no API key — see
+[PACKAGES.md](PACKAGES.md#external-data-sources).
+
+![UML class diagram of the capitals table: id (PK, serial), name (text), country (text), iso_a2 (text), geom (geometry Point, 4326), temperature (double precision), temperature_updated_at (timestamptz).](docs/diagrams/capitals-table.png)
+
+| Column | Type | Description |
+|---|---|---|
+| `id` | `serial` | Primary key, assigned by `ogr2ogr` on load. |
+| `name` | `text` | City name (Natural Earth `name`). |
+| `country` | `text` | Country name (Natural Earth `adm0name`). |
+| `iso_a2` | `text` | Two-letter country code. |
+| `geom` | `geometry(Point, 4326)` | Native Natural Earth CRS (WGS84 lon/lat) — left untransformed since `refresh-weather` reads it straight back out as lat/lon for Open-Meteo. |
+| `temperature` | `double precision` | Current temperature in °C, from Open-Meteo. `NULL` until the first `refresh-weather` run. |
+| `temperature_updated_at` | `timestamptz` | When `temperature` was last fetched. |
+
+`capitals load` is the reference-dataset step (`ogr2ogr -overwrite` —
+re-running it replaces the table and loses any fetched temperatures, so
+it's meant to run once). `capitals refresh-weather` is the repeatable
+step: it fetches every row's current temperature sequentially (~200
+cities, well under Open-Meteo's free-tier limits) and `UPDATE`s it in
+place; a single city's fetch failing doesn't stop the rest.
+
+Diagram source: `docs/diagrams/capitals-table.svg`.
+
 ## Functional requirements
 
 | ID | Requirement |
@@ -120,6 +151,7 @@ drops the view and reverts the trigger to the single-payload version.
 | FR6 | A `pg_service.conf` template lets QGIS and `psql` connect via `PGSERVICEFILE` without re-entering credentials. |
 | FR7 | `geopublish docs-serve` (alias `gp docs-serve`) serves the mkdocs site locally, including this specification. |
 | FR8 | `geopublish prepare pdf-to-geotiff <pdf-or-folder> --output-dir <dir>` rasterizes each page of each PDF, clips it to its drawn map frame, and georeferences it to a GeoTIFF. The frame (PDF-point bbox) is detected from the largest non-full-page `fill="none"` rectangle in the page's SVG export; the real-world bbox is detected from printed zone-prefixed-easting/northing text labels (German decimal-comma format). `--utm-zone`/`--srs` override the default (zone 32, EPSG:25832). A sheet missing its coordinate labels is reported as failed without aborting the rest of a batch. |
+| FR9 | `geopublish capitals load` loads the world's national capitals (Natural Earth, public domain, no API key) into a `capitals` table. `geopublish capitals refresh-weather` fetches each row's current temperature from Open-Meteo (free, no API key) and updates `temperature`/`temperature_updated_at` in place; one city's fetch failing doesn't stop the rest. |
 
 ## Non-functional requirements
 

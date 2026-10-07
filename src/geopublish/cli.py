@@ -5,6 +5,7 @@ from pathlib import Path
 
 import click
 
+from geopublish.capitals import load_capitals, refresh_weather
 from geopublish.config import load_config
 from geopublish.db import ensure_postgis, list_layers
 from geopublish.pdfmap import batch_convert
@@ -132,6 +133,34 @@ def pdf_to_geotiff_cmd(source, output_dir, pages, dpi, srs, utm_zone) -> None:
     click.echo(f"{len(ok)} succeeded, {len(failed)} failed")
     if failed and not ok:
         raise SystemExit(1)
+
+
+@cli.group()
+def capitals() -> None:
+    """World capital cities layer with live temperature."""
+
+
+@capitals.command("load")
+@click.option("--table", default="capitals", show_default=True)
+@click.option("--schema", default="public", show_default=True)
+def capitals_load_cmd(table, schema) -> None:
+    """Load the world's national capitals (Natural Earth, public domain,
+    no API key) into PostGIS. Overwrites the table -- run this once, then
+    use 'capitals refresh-weather' going forward."""
+    config = load_config()
+    load_capitals(config, table=table, schema=schema)
+    click.echo(f"loaded capitals -> {schema}.{table}")
+
+
+@capitals.command("refresh-weather")
+@click.option("--table", default="capitals", show_default=True)
+@click.option("--schema", default="public", show_default=True)
+def capitals_refresh_weather_cmd(table, schema) -> None:
+    """Fetch each capital's current temperature from Open-Meteo (free, no
+    API key) and update the table in place."""
+    config = load_config()
+    updated, failed = refresh_weather(config, table=table, schema=schema)
+    click.echo(f"updated {updated} cities, {failed} failed")
 
 
 @cli.command("docs-serve")
