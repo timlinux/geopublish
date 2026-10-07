@@ -22,7 +22,19 @@ def connect(config: PgConfig):
 def ensure_postgis(config: PgConfig) -> None:
     with connect(config) as conn, conn.cursor() as cur:
         cur.execute("CREATE EXTENSION IF NOT EXISTS postgis;")
-        cur.execute("CREATE EXTENSION IF NOT EXISTS postgis_raster;")
+        conn.commit()
+
+    with connect(config) as conn, conn.cursor() as cur:
+        try:
+            cur.execute("CREATE EXTENSION IF NOT EXISTS postgis_raster;")
+        except psycopg2.errors.InsufficientPrivilege as exc:
+            raise RuntimeError(
+                "postgis was created, but creating postgis_raster on "
+                f"{config.dbname}@{config.host} needs superuser privileges "
+                f"that {config.user!r} doesn't have. Ask your DB "
+                "administrator or hosting provider to run 'CREATE EXTENSION "
+                "IF NOT EXISTS postgis_raster;' for you."
+            ) from exc
         conn.commit()
 
 

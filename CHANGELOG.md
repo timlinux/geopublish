@@ -31,3 +31,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
   created yet. It now raises a clear message pointing at `geopublish
   init-db`, and the CLI entrypoint prints configuration/runtime errors as
   a one-line message instead of a full traceback.
+- `geopublish init-db` ran `CREATE EXTENSION postgis` and `CREATE EXTENSION
+  postgis_raster` in a single transaction, so a managed server that only
+  grants the latter to superusers rolled back `postgis` too. They now
+  commit independently, and an `InsufficientPrivilege` on `postgis_raster`
+  raises a clear message instead of a traceback.
