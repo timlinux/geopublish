@@ -36,6 +36,7 @@
           pkgs.postgresql_16
           postgis
           pkgs.qgis
+          pkgs.inkscape
           pkgs.chafa
           pkgs.pre-commit
           pkgs.black
@@ -74,6 +75,7 @@
           docs = mkApp "${self}/scripts/docs.sh";
           format = mkApp "${self}/scripts/format.sh";
           lint = mkApp "${self}/scripts/lint.sh";
+          diagrams = mkApp "${self}/scripts/render-diagrams.sh";
         };
       }
     );

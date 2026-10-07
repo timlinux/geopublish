@@ -32,7 +32,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 - `qgis/layers/collab.qlr`: a QGIS Layer Definition for the `collab` table
   (styled single-symbol point renderer, edit form with a "Your name" text
   field, `id` hidden) referencing the `workshop` PG service by name, so it
-  carries no embedded credentials and is safe to share.
+  carries no embedded credentials and is safe to share. Grants `SELECT,
+  INSERT, UPDATE, DELETE` on the table (and `USAGE, SELECT` on its `id`
+  sequence) to `PUBLIC`, so any connected role can edit pins, not just the
+  table's owner.
+- Diagrams are now hand-authored SVG (`docs/diagrams/*.svg`) rendered to
+  PNG via Inkscape (`nix run .#diagrams` / `scripts/render-diagrams.sh`),
+  not Mermaid -- `architecture.svg` replaces the old Mermaid flowchart in
+  `SPECIFICATION.md`, and `collab-table.svg` is a UML class diagram for
+  the `collab` table, alongside a plain Markdown attributes table.
 
 ### Fixed
 

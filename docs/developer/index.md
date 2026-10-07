@@ -22,12 +22,25 @@ standard GDAL/PostGIS CLI tools rather than reimplementations — prefer
 extending `vector.py`/`raster.py` with new `ogr2ogr`/`raster2pgsql` flags
 over adding a new code path.
 
+## Diagrams
+
+Diagrams are hand-authored SVG under `docs/diagrams/*.svg`, rendered to
+PNG with Inkscape (provisioned by the flake, not whatever happens to be on
+your system) — not Mermaid. After editing an SVG:
+
+```bash
+nix run .#diagrams   # or: scripts/render-diagrams.sh
+```
+
+then commit both the `.svg` source and the regenerated `.png`.
+
 ## Running checks locally
 
 ```bash
 nix run .#test     # pytest (no live DB required)
 nix run .#lint      # ruff, codespell, reuse lint
 nix run .#format    # black
+nix run .#diagrams  # re-render docs/diagrams/*.svg -> *.png
 ```
 
 All of the above are also wired into `.pre-commit-config.yaml` and CI

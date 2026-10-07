@@ -1,0 +1,27 @@
+<!-- SPDX-FileCopyrightText: 2026 Kartoza -->
+<!-- SPDX-License-Identifier: MIT -->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 360 180" font-family="Helvetica, Arial, sans-serif">
+  <rect x="0" y="0" width="360" height="180" fill="#ffffff"/>
+
+  <g>
+    <rect x="20" y="20" width="320" height="140" fill="#eef3f8" stroke="#2b3a55" stroke-width="1.5"/>
+    <rect x="20" y="20" width="320" height="34" fill="#2b3a55"/>
+    <text x="180" y="43" text-anchor="middle" font-size="14" font-weight="700" fill="#ffffff">collab</text>
+
+    <line x1="20" y1="54" x2="340" y2="54" stroke="#2b3a55" stroke-width="1"/>
+
+    <text x="32" y="75" font-size="12" font-weight="700" fill="#2b3a55">PK</text>
+    <text x="64" y="75" font-size="12" fill="#1c2a40">id</text>
+    <text x="330" y="75" text-anchor="end" font-size="12" fill="#55607a">serial</text>
+
+    <line x1="20" y1="86" x2="340" y2="86" stroke="#c3cdde" stroke-width="1"/>
+
+    <text x="64" y="106" font-size="12" fill="#1c2a40">name</text>
+    <text x="330" y="106" text-anchor="end" font-size="12" fill="#55607a">text</text>
+
+    <line x1="20" y1="117" x2="340" y2="117" stroke="#c3cdde" stroke-width="1"/>
+
+    <text x="64" y="137" font-size="12" fill="#1c2a40">geom</text>
+    <text x="330" y="137" text-anchor="end" font-size="12" fill="#55607a">geometry(Point,3857)</text>
+  </g>
+</svg>

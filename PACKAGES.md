@@ -19,6 +19,7 @@ Annotated list of every package the flake provisions, and why.
 | Package | Source | Purpose |
 |---|---|---|
 | `mkdocs`, `mkdocs-material` | nixpkgs (python3Packages, same env as above) | Builds/serves `docs/`. |
+| `inkscape` | nixpkgs | Renders hand-authored SVG diagrams (`docs/diagrams/*.svg`) to PNG via `nix run .#diagrams` / `scripts/render-diagrams.sh`. Diagrams are plain SVG, not Mermaid, so they render identically wherever the PNG is embedded (GitHub, mkdocs, a PDF export). |
 
 ## Quality / CI
 

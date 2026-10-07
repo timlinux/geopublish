@@ -41,26 +41,44 @@ viewable in QGIS without typing credentials into QGIS itself.
 
 ## Architecture
 
-```mermaid
-flowchart LR
-    subgraph DevShell["nix develop (flake.nix)"]
-        CLI[geopublish CLI]
-        GDAL[ogr2ogr / gdalinfo]
-        PGTOOLS[psql / raster2pgsql]
-        PDFTOOLS[pdftocairo / pdftotext / gdal_translate]
-        QGIS[QGIS]
-    end
+![Architecture: two input kinds (GIS files, PDF plan sheets) converge on gp publish; PDFs detour through pdftocairo/pdftotext detection and gdal_translate georeferencing to produce an ordinary GeoTIFF that re-enters the same publish path; QGIS reads PostgreSQL directly via PGSERVICEFILE, never through gp.](docs/diagrams/architecture.png)
 
-    File[(Vector or raster file)] -->|publish vector/raster| CLI
-    PDF[(PDF plan sheet or folder)] -->|prepare pdf-to-geotiff| CLI
-    CLI --> GDAL
-    CLI --> PGTOOLS
-    CLI --> PDFTOOLS
-    PDFTOOLS -->|clipped + georeferenced GeoTIFF| GDAL
-    GDAL -->|INSERT rows| PG[(PostgreSQL + PostGIS)]
-    PGTOOLS -->|raster2pgsql SQL piped to psql| PG
-    QGIS -->|PGSERVICEFILE, no typed password| PG
-```
+Two things this diagram is making a point of, that prose would bury: a PDF
+plan sheet doesn't get its own publish path — `pdf-to-geotiff`'s output is
+an ordinary GeoTIFF that loops back into `gp publish raster`, so there is
+only one way data reaches Postgres from a file. QGIS is the one component
+that never calls `gp` at all; it talks to Postgres directly over
+`PGSERVICEFILE`.
+
+Diagram source: `docs/diagrams/architecture.svg`, rendered via
+`nix run .#diagrams` (wraps Inkscape, provisioned by the flake — see
+"Diagrams" below).
+
+## Data model
+
+### `collab`
+
+A shared "drop a pin with your name" table (`sql/create_collab_table.sql`),
+EPSG:3857.
+
+![UML class diagram of the collab table: three attributes, id (PK, serial), name (text), geom (geometry Point, 3857).](docs/diagrams/collab-table.png)
+
+| Column | Type | Constraints | Description |
+|---|---|---|---|
+| `id` | `serial` | `PRIMARY KEY` | Surrogate key, assigned on insert. |
+| `name` | `text` | — | Contributor's name, entered via the QGIS form. |
+| `geom` | `geometry(Point, 3857)` | — | Dropped-pin location, Web Mercator. |
+
+`SELECT, INSERT, UPDATE, DELETE` are granted to `PUBLIC` (and `USAGE,
+SELECT` on its `id` sequence), so every connected role can add, move, and
+delete pins — not just the role that created the table.
+
+Shared via `qgis/layers/collab.qlr` — a QGIS Layer Definition carrying the
+point styling and edit-form configuration (see the
+[user guide](docs/user/index.md#collaboration-layer)), so participants get
+the same look and form without rebuilding it themselves.
+
+Diagram source: `docs/diagrams/collab-table.svg`.
 
 ## Functional requirements
 

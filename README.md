@@ -68,7 +68,7 @@ batch still runs.
 A shared "drop a pin with your name" layer, EPSG:3857:
 
 ```bash
-psql -f sql/create_collab_table.sql
+command psql -f sql/create_collab_table.sql
 ```
 
 Creates `collab (id, name, geom)`. Share `qgis/layers/collab.qlr` with

@@ -51,15 +51,23 @@ batch still runs.
 A shared "drop a pin with your name" layer, EPSG:3857:
 
 ```bash
-psql -f sql/create_collab_table.sql
+command psql -f sql/create_collab_table.sql
 ```
 
-Creates `collab (id, name, geom)`. Share `qgis/layers/collab.qlr` with
-participants — it's a QGIS Layer Definition file: a double-click (or
-drag-and-drop into QGIS) adds the layer already styled (red circle marker)
-and with its edit form configured (a single "Your name" text field; `id` is
-hidden/read-only). It points at the `workshop` PG service by name, so it
-carries no embedded credentials — anyone with the same
+(If `psql` is aliased to `pgcli` in your shell, plain `psql -f ...` will
+fail with a `pgcli` usage error — `command psql` bypasses that; see the
+[administrator guide](../admin/index.md#if-psql--f--fails-with-a-pgcli-error)
+if it still doesn't work.)
+
+Creates `collab (id, name, geom)`, with `SELECT, INSERT, UPDATE, DELETE`
+granted to `PUBLIC` so every participant's connection can add, move, and
+delete pins — not just whoever ran the script. Share
+`qgis/layers/collab.qlr` with participants — it's a QGIS Layer Definition
+file: a double-click (or drag-and-drop into QGIS) adds the layer already
+styled (red circle marker) and with its edit form configured (a single
+"Your name" text field; `id` is hidden/read-only). It points at the
+`workshop` PG service by name, so it carries no embedded credentials —
+anyone with the same
 `config/pg_service.conf` set up can load it straight away.
 
 ## Viewing in QGIS

@@ -25,6 +25,21 @@ gitignored `.env` (see `.env.example`):
 | `PGPASSWORD` | no | empty |
 | `PGSSLMODE` | no | `prefer` |
 
+## If `psql -f ...` fails with a `pgcli` error
+
+Some shells alias/function-wrap `psql` to `pgcli` (a popular interactive
+client), which doesn't support `-f`/script files. If you see
+`Usage: pgcli [OPTIONS] ...` after running a `psql -f ...` command from
+this project, bypass the alias:
+
+```bash
+command psql -f path/to/file.sql
+```
+
+`command` skips shell aliases/functions and resolves to the real `psql`
+binary the flake provisions. If that still doesn't work, find it
+explicitly with `which -a psql` and invoke that path directly.
+
 ## QGIS service file
 
 `config/pg_service.conf.example` is a template for a `PGSERVICEFILE` that
