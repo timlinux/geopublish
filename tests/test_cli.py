@@ -53,6 +53,12 @@ def test_publish_pdf_vectors_help():
     assert "--utm-zone" in result.output
 
 
+def test_test_format_lint_diagrams_help():
+    for name in ("test", "format", "lint", "diagrams"):
+        result = CliRunner().invoke(cli, [name, "--help"])
+        assert result.exit_code == 0, name
+
+
 def test_status_without_config_fails_cleanly():
     result = CliRunner().invoke(cli, ["status"], env={"PGHOST": ""})
     assert result.exit_code != 0

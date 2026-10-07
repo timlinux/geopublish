@@ -246,7 +246,8 @@ Diagram source: `docs/diagrams/pdf-vector-tables.svg`.
 - `README.md` — quickstart and QGIS connection steps.
 - `PACKAGES.md` — annotated dependency list.
 - `docs/` (mkdocs) — user, admin, and developer guides, plus this
-  specification, published via `nix run .#docs` or `gp docs-serve`. The
+  specification, published via `nix run .#docs-serve` or `gp docs-serve`
+  (the same script either way). The
   specification page is generated from this file by `scripts/docs.sh`
   (copied to `docs/specification.md`, which is gitignored) so there is a
   single source of truth.

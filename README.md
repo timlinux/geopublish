@@ -127,11 +127,18 @@ docs/                   mkdocs site (user / admin / developer guides)
 
 ## Development
 
+Every `gp` command has a matching `nix run .#<name>`, and vice versa —
+same implementation, two entry points:
+
 ```bash
-nix run .#test     # pytest
-nix run .#lint      # ruff, codespell, reuse lint
-nix run .#format    # black
-nix run .#docs      # mkdocs serve
+nix run .#test                       # == gp test       (pytest)
+nix run .#lint                       # == gp lint        (ruff, codespell, reuse)
+nix run .#format                     # == gp format      (black)
+nix run .#docs-serve                 # == gp docs-serve  (mkdocs serve)
+nix run .#diagrams                   # == gp diagrams    (render docs/diagrams/*.svg -> png)
+
+# and every data/workflow command too, e.g.:
+nix run .#publish-vector -- file.gpkg --table foo   # == gp publish vector file.gpkg --table foo
 ```
 
 Pre-commit hooks (black, ruff, codespell, reuse lint, gitleaks) install

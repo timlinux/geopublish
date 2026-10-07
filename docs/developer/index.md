@@ -77,11 +77,23 @@ fresh copy of all four and diff before replacing. `mkdocs.yml`'s own
 ## Running checks locally
 
 ```bash
-nix run .#test     # pytest (no live DB required)
-nix run .#lint      # ruff, codespell, reuse lint
-nix run .#format    # black
-nix run .#diagrams  # re-render docs/diagrams/*.svg -> *.png
+nix run .#test     # == gp test      pytest (no live DB required)
+nix run .#lint      # == gp lint      ruff, codespell, reuse lint
+nix run .#format    # == gp format    black
+nix run .#diagrams  # == gp diagrams  re-render docs/diagrams/*.svg -> *.png
 ```
 
 All of the above are also wired into `.pre-commit-config.yaml` and CI
 (`.github/workflows/ci.yml`).
+
+## `gp` / `nix run` symmetry
+
+Every `gp` command has a matching `nix run .#<name>` and vice versa:
+`gp init-db` / `nix run .#init-db`, `gp publish vector` /
+`nix run .#publish-vector`, and so on (see `scripts/apps/*.sh` for the
+thin wrappers backing the data/workflow ones -- each just forwards to
+`bin/geopublish <subcommand> "$@"`; the dev-tool ones -- test/format/
+lint/diagrams/docs-serve -- point straight at the same scripts `gp`
+itself calls). When adding a new `gp` subcommand, add its mirror in the
+same commit: a new `scripts/apps/<name>.sh` wrapper plus the matching
+entry in `flake.nix`'s `apps`.

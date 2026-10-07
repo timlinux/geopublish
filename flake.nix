@@ -71,11 +71,24 @@
           default = mkApp "${self}/bin/geopublish";
           geopublish = mkApp "${self}/bin/geopublish";
           gp = mkApp "${self}/bin/gp";
+
+          # Mirrors gp's dev-tool subcommands (same scripts gp itself calls).
           test = mkApp "${self}/scripts/test.sh";
-          docs = mkApp "${self}/scripts/docs.sh";
           format = mkApp "${self}/scripts/format.sh";
           lint = mkApp "${self}/scripts/lint.sh";
           diagrams = mkApp "${self}/scripts/render-diagrams.sh";
+
+          # Mirrors every gp data/workflow subcommand 1:1 (see
+          # scripts/apps/*.sh) -- "one implementation, two entry points".
+          docs-serve = mkApp "${self}/scripts/docs.sh";
+          init-db = mkApp "${self}/scripts/apps/init-db.sh";
+          publish-vector = mkApp "${self}/scripts/apps/publish-vector.sh";
+          publish-raster = mkApp "${self}/scripts/apps/publish-raster.sh";
+          publish-pdf-vectors = mkApp "${self}/scripts/apps/publish-pdf-vectors.sh";
+          status = mkApp "${self}/scripts/apps/status.sh";
+          prepare-pdf-to-geotiff = mkApp "${self}/scripts/apps/prepare-pdf-to-geotiff.sh";
+          capitals-load = mkApp "${self}/scripts/apps/capitals-load.sh";
+          capitals-refresh-weather = mkApp "${self}/scripts/apps/capitals-refresh-weather.sh";
         };
       }
     );

@@ -21,19 +21,25 @@ cat <<'EOF'
 
   geopublish dev shell — publish vector/raster data to PostGIS, view in QGIS
 
-  Commands (gp is a short alias for geopublish):
-    gp --help          Show CLI usage
-    gp init-db         Create postgis/postgis_raster extensions
-    gp publish vector  Load a vector file into PostGIS (ogr2ogr)
-    gp publish raster  Load a raster file into PostGIS (raster2pgsql)
-    gp status          Test the DB connection, list published layers
-    gp prepare pdf-to-geotiff   Clip + georeference PDF plan sheet(s)
-    gp docs-serve      Serve the docs site locally (mkdocs serve)
+  Every gp command has a matching `nix run .#<name>` and vice versa
+  (gp is a short alias for geopublish):
 
-    nix run .#test      Run the test suite
-    nix run .#docs      Serve docs locally (mkdocs serve)
-    nix run .#format    Format code (black)
-    nix run .#lint      Lint code (ruff, codespell, reuse)
+    gp --help                     Show full CLI usage
+    gp init-db                    Create postgis/postgis_raster extensions
+    gp publish vector             Load a vector file into PostGIS (ogr2ogr)
+    gp publish raster             Load a raster file into PostGIS (raster2pgsql)
+    gp publish pdf-vectors        Extract PDF plan vectors into points/lines/polygons
+    gp status                     Test the DB connection, list published layers
+    gp prepare pdf-to-geotiff     Clip + georeference PDF plan sheet(s)
+    gp capitals load              Load world capitals (Natural Earth)
+    gp capitals refresh-weather   Fetch current temperature (Open-Meteo)
+    gp docs-serve   = nix run .#docs-serve      Serve the docs site locally
+    gp test         = nix run .#test            Run the test suite
+    gp format       = nix run .#format          Format code (black)
+    gp lint         = nix run .#lint             Lint (ruff, codespell, reuse)
+    gp diagrams     = nix run .#diagrams         Render docs/diagrams/*.svg -> png
+
+  e.g. `nix run .#publish-vector -- file.gpkg --table foo` == `gp publish vector file.gpkg --table foo`
 
   Made with 💗 by Kartoza | https://kartoza.com
 EOF

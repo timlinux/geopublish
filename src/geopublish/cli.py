@@ -228,6 +228,31 @@ def docs_serve() -> None:
     subprocess.run([str(REPO_ROOT / "scripts" / "docs.sh")], check=True)
 
 
+@cli.command("test")
+def test_cmd() -> None:
+    """Run the pytest suite. Same entrypoint as 'nix run .#test'."""
+    subprocess.run([str(REPO_ROOT / "scripts" / "test.sh")], check=True)
+
+
+@cli.command("format")
+def format_cmd() -> None:
+    """Format code with black. Same entrypoint as 'nix run .#format'."""
+    subprocess.run([str(REPO_ROOT / "scripts" / "format.sh")], check=True)
+
+
+@cli.command("lint")
+def lint_cmd() -> None:
+    """Lint with ruff, codespell, reuse. Same entrypoint as 'nix run .#lint'."""
+    subprocess.run([str(REPO_ROOT / "scripts" / "lint.sh")], check=True)
+
+
+@cli.command("diagrams")
+def diagrams_cmd() -> None:
+    """Render docs/diagrams/*.svg to PNG via Inkscape. Same entrypoint as
+    'nix run .#diagrams'."""
+    subprocess.run([str(REPO_ROOT / "scripts" / "render-diagrams.sh")], check=True)
+
+
 def main() -> None:
     try:
         cli()

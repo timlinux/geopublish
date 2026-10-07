@@ -86,6 +86,18 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
   `SPECIFICATION.md`, and `collab-table.svg` is a UML class diagram for
   the `collab` table, alongside a plain Markdown attributes table.
 
+### Changed
+
+- Every `gp` command now has a matching `nix run .#<name>` and vice
+  versa. Added `gp test`/`gp format`/`gp lint`/`gp diagrams` (same
+  scripts the existing `nix run .#test`/`.#format`/`.#lint`/`.#diagrams`
+  already called), and added `nix run .#init-db`,
+  `.#publish-vector`/`.#publish-raster`/`.#publish-pdf-vectors`,
+  `.#status`, `.#prepare-pdf-to-geotiff`, `.#capitals-load`/
+  `.#capitals-refresh-weather`, and `.#docs-serve` (replacing the
+  inconsistently-named `.#docs`), via thin wrappers in `scripts/apps/`
+  that forward to `bin/geopublish <subcommand> "$@"`.
+
 ### Fixed
 
 - `geopublish publish pdf-vectors` reported `0 points, 0 lines, 0
