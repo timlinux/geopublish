@@ -36,6 +36,33 @@ gp docs-serve
 
 `gp` is a short alias for `geopublish` — both run the same CLI.
 
+## Georeferencing PDF plan sheets
+
+Some source data arrives as PDF plan sheets with printed corner coordinate
+labels (e.g. Netze BW "Netzauskunft" exports) rather than as GIS files.
+`gp prepare pdf-to-geotiff` clips each page to its drawn map frame and
+georeferences it, with no manual pixel-picking: the frame and its
+real-world corner coordinates are read directly from the PDF's vector
+border and printed coordinate labels.
+
+```bash
+# single PDF, every page -> one GeoTIFF per page
+gp prepare pdf-to-geotiff PLANS/some-plan.pdf --output-dir PLANS/geotiff
+
+# a whole folder of PDFs (batch mode)
+gp prepare pdf-to-geotiff PLANS --output-dir PLANS/geotiff
+
+# then publish
+gp publish raster PLANS/geotiff/some-plan_p1.tif --table some_plan_p1
+```
+
+Assumes UTM coordinates with a zone-prefixed easting label (e.g.
+`32467896,48` = zone 32, easting 467896.48) and a plain northing label
+(e.g. `5307061,26`); override `--utm-zone`/`--srs` if your plans use a
+different zone. If a sheet is missing at least two easting and two
+northing labels, that page is reported as failed and the rest of the
+batch still runs.
+
 ## Viewing in QGIS
 
 1. Copy `config/pg_service.conf.example` to `config/pg_service.conf` and fill
@@ -52,7 +79,7 @@ gp docs-serve
 flake.nix              Nix flake: devShell + apps (geopublish, gp, test, docs, format, lint)
 bin/geopublish          CLI entrypoint
 bin/gp                  Short alias for bin/geopublish
-src/geopublish/         Python package (cli, config, db, vector, raster)
+src/geopublish/         Python package (cli, config, db, vector, raster, pdfmap)
 scripts/                Shell scripts backing the flake apps and dev-shell banner
 config/                 QGIS/psql service-file template
 tests/                  pytest suite

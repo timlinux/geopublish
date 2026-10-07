@@ -23,6 +23,10 @@ viewable in QGIS without typing credentials into QGIS itself.
    client tools, QGIS, docs tooling, linters) provisioned identically on
    every participant's machine via one `nix develop`, so "it works on my
    machine" isn't a workshop failure mode.
+6. **As a workshop participant**, I want to drop a folder of PDF plan
+   sheets (e.g. utility "Netzauskunft" exports with printed corner
+   coordinates) and get back georeferenced GeoTIFFs, without manually
+   picking ground control points for each one.
 
 ## Out of scope (v0.1)
 
@@ -43,12 +47,16 @@ flowchart LR
         CLI[geopublish CLI]
         GDAL[ogr2ogr / gdalinfo]
         PGTOOLS[psql / raster2pgsql]
+        PDFTOOLS[pdftocairo / pdftotext / gdal_translate]
         QGIS[QGIS]
     end
 
     File[(Vector or raster file)] -->|publish vector/raster| CLI
+    PDF[(PDF plan sheet or folder)] -->|prepare pdf-to-geotiff| CLI
     CLI --> GDAL
     CLI --> PGTOOLS
+    CLI --> PDFTOOLS
+    PDFTOOLS -->|clipped + georeferenced GeoTIFF| GDAL
     GDAL -->|INSERT rows| PG[(PostgreSQL + PostGIS)]
     PGTOOLS -->|raster2pgsql SQL piped to psql| PG
     QGIS -->|PGSERVICEFILE, no typed password| PG
@@ -65,6 +73,7 @@ flowchart LR
 | FR5 | All connection details are read from environment variables (`PGHOST`, `PGPORT`, `PGDATABASE`, `PGUSER`, `PGPASSWORD`, `PGSSLMODE`), loaded from a gitignored `.env`; missing required variables fail fast with a clear message. |
 | FR6 | A `pg_service.conf` template lets QGIS and `psql` connect via `PGSERVICEFILE` without re-entering credentials. |
 | FR7 | `geopublish docs-serve` (alias `gp docs-serve`) serves the mkdocs site locally, including this specification. |
+| FR8 | `geopublish prepare pdf-to-geotiff <pdf-or-folder> --output-dir <dir>` rasterizes each page of each PDF, clips it to its drawn map frame, and georeferences it to a GeoTIFF. The frame (PDF-point bbox) is detected from the largest non-full-page `fill="none"` rectangle in the page's SVG export; the real-world bbox is detected from printed zone-prefixed-easting/northing text labels (German decimal-comma format). `--utm-zone`/`--srs` override the default (zone 32, EPSG:25832). A sheet missing its coordinate labels is reported as failed without aborting the rest of a batch. |
 
 ## Non-functional requirements
 
@@ -85,6 +94,10 @@ flowchart LR
 - Integration testing against a real PostGIS instance is a manual workshop
   step (run `geopublish init-db` / `publish` / `status` against your
   configured `.env`), not part of the automated suite in v0.1.
+- `tests/test_pdfmap.py` — frame/coordinate-label detection and the
+  points-to-pixels conversion, against fixtures trimmed from a real plan
+  sheet's SVG/bbox export, without needing a live `pdftocairo`/`gdal_translate`
+  call per test run.
 
 ## Documentation
 

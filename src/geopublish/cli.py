@@ -7,6 +7,7 @@ import click
 
 from geopublish.config import load_config
 from geopublish.db import ensure_postgis, list_layers
+from geopublish.pdfmap import batch_convert
 from geopublish.raster import publish_raster
 from geopublish.vector import publish_vector
 
@@ -79,6 +80,58 @@ def status() -> None:
         return
     for layer in layers:
         click.echo(f"  {layer['kind']:6s} {layer['schema']}.{layer['name']}")
+
+
+@cli.group()
+def prepare() -> None:
+    """Prepare non-PostGIS source data for publishing."""
+
+
+@prepare.command("pdf-to-geotiff")
+@click.argument("source", type=click.Path(exists=True, path_type=Path))
+@click.option("--output-dir", required=True, type=click.Path(path_type=Path))
+@click.option(
+    "--page",
+    "pages",
+    type=int,
+    multiple=True,
+    help="Restrict to this page number (repeatable). Default: every page.",
+)
+@click.option("--dpi", type=int, default=300, show_default=True)
+@click.option("--srs", default="EPSG:25832", show_default=True)
+@click.option(
+    "--utm-zone",
+    type=int,
+    default=32,
+    show_default=True,
+    help="UTM zone used to decode zone-prefixed easting labels.",
+)
+def pdf_to_geotiff_cmd(source, output_dir, pages, dpi, srs, utm_zone) -> None:
+    """Clip and georeference PDF plan sheet(s) into GeoTIFFs.
+
+    SOURCE is a single PDF or a directory of PDFs (batch mode). The map
+    frame and its real-world corner coordinates are detected automatically
+    from the PDF's drawn border and printed coordinate labels -- no manual
+    pixel-picking needed. Every page of every PDF is converted unless
+    --page is given.
+    """
+    results = batch_convert(
+        source,
+        output_dir=output_dir,
+        dpi=dpi,
+        srs=srs,
+        zone=utm_zone,
+        pages=list(pages) or None,
+    )
+    ok = [r for r in results if r.error is None]
+    failed = [r for r in results if r.error is not None]
+    for r in ok:
+        click.echo(f"wrote {r.output}")
+    for r in failed:
+        click.echo(f"FAILED {r.pdf.name} page {r.page}: {r.error}", err=True)
+    click.echo(f"{len(ok)} succeeded, {len(failed)} failed")
+    if failed and not ok:
+        raise SystemExit(1)
 
 
 @cli.command("docs-serve")

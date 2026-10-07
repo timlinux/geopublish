@@ -27,6 +27,7 @@ cat <<'EOF'
     gp publish vector  Load a vector file into PostGIS (ogr2ogr)
     gp publish raster  Load a raster file into PostGIS (raster2pgsql)
     gp status          Test the DB connection, list published layers
+    gp prepare pdf-to-geotiff   Clip + georeference PDF plan sheet(s)
     gp docs-serve      Serve the docs site locally (mkdocs serve)
 
     nix run .#test      Run the test suite

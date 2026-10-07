@@ -7,7 +7,8 @@ Annotated list of every package the flake provisions, and why.
 | Package | Source | Purpose |
 |---|---|---|
 | `python3` + `gdal`, `psycopg2`, `python-dotenv`, `click` | nixpkgs `python3.withPackages` | Runs the `geopublish` CLI: argument parsing (click), `.env` loading (python-dotenv), DB queries (psycopg2), GDAL Python bindings available if a command needs them directly. |
-| `gdal` (CLI) | nixpkgs | Provides `ogr2ogr`, `gdalinfo`, etc. used by `geopublish publish vector`. |
+| `gdal` (CLI) | nixpkgs | Provides `ogr2ogr`, `gdal_translate`, etc. used by `geopublish publish vector` and `geopublish prepare pdf-to-geotiff`. |
+| `poppler_utils` | nixpkgs | Provides `pdftocairo`, `pdftotext`, `pdfinfo` used by `geopublish prepare pdf-to-geotiff` to rasterize PDF plan sheets and read their vector frame/coordinate labels. |
 | `postgresql_16` | nixpkgs | Provides `psql`, used both directly and as the receiving end of `raster2pgsql \| psql`. |
 | `postgresql_16.pkgs.postgis` | nixpkgs | Provides `raster2pgsql`, `shp2pgsql`, `pgsql2shp` used by `geopublish publish raster`. |
 | `qgis` | nixpkgs | Desktop viewer for the published PostGIS layers. |

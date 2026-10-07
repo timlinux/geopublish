@@ -17,6 +17,9 @@ __pycache__/
 site/
 docs/specification.md
 
+# generated GeoTIFFs from `gp prepare pdf-to-geotiff`
+geotiff/
+
 # screenshots
 screenshost-gitignore/
 

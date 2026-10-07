@@ -29,6 +29,12 @@ def test_docs_serve_help():
     assert "mkdocs" in result.output
 
 
+def test_prepare_pdf_to_geotiff_help():
+    result = CliRunner().invoke(cli, ["prepare", "pdf-to-geotiff", "--help"])
+    assert result.exit_code == 0
+    assert "--utm-zone" in result.output
+
+
 def test_status_without_config_fails_cleanly():
     result = CliRunner().invoke(cli, ["status"], env={"PGHOST": ""})
     assert result.exit_code != 0

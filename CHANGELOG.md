@@ -18,6 +18,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 - `geopublish docs-serve` / `gp docs-serve` command to preview the docs site
   locally without needing `nix run .#docs`.
 - `SPECIFICATION.md` published as a page in the mkdocs site.
+- `geopublish prepare pdf-to-geotiff` / `gp prepare pdf-to-geotiff`: clips a
+  PDF plan sheet to its drawn map frame and georeferences it to a GeoTIFF,
+  ready for `gp publish raster`. The frame and its real-world corner
+  coordinates (UTM, zone-prefixed easting + northing, e.g. the Netze BW
+  "Netzauskunft" plan format) are detected automatically from the PDF's
+  vector border and printed coordinate labels -- no manual pixel-picking.
+  Accepts a single PDF or a directory for batch conversion; every page of
+  every PDF is converted by default, and one bad sheet doesn't abort the
+  rest of the batch.
 
 ### Fixed
 

@@ -32,6 +32,7 @@
         devTools = [
           pythonEnv
           pkgs.gdal
+          pkgs.poppler_utils
           pkgs.postgresql_16
           postgis
           pkgs.qgis
