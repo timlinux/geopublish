@@ -96,6 +96,30 @@ To remove just the notify wiring later (keeping the table and its data):
 command psql -f sql/drop_collab_notify.sql
 ```
 
+### Dissolved 100km buffer
+
+```bash
+command psql -f sql/create_collab_buffer_view.sql
+```
+
+Creates `collab_buffer_100km`, a live view (not a table — nothing to
+refresh) that buffers every pin by 100km geodesically and dissolves them
+into one shape. It reuses the same notify trigger as above, extended to
+also emit payload `'collab_buffer'` on channel `qgis`, so a layer loaded
+from `qgis/layers/collab_buffer_100km.qlr` (already wired to that
+payload) grows and shrinks live as pins are added and removed, right
+alongside the points layer.
+
+```bash
+command psql -f sql/drop_collab_buffer_view.sql
+```
+
+removes it and restores the points-only notify behaviour.
+
+```bash
+command psql -f sql/drop_collab_buffer_view.sql
+```
+
 ## Viewing in QGIS
 
 1. Copy `config/pg_service.conf.example` to `config/pg_service.conf` and

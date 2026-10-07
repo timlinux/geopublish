@@ -44,6 +44,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
   `qgis/layers/collab.qlr` now sets `refreshOnNotifyEnabled`/
   `refreshOnNotifyMessage` so a loaded layer auto-refreshes without extra
   setup. `sql/drop_collab_notify.sql` reverts just the trigger/function.
+- `sql/create_collab_buffer_view.sql`: a live `collab_buffer_100km` view
+  (not materialized) dissolving a geodesically-correct 100km buffer
+  around every `collab` pin. Extends `notify_collab_change()` with a
+  second payload (`'collab_buffer'`, same `qgis` channel) since a view
+  has no change events of its own to trigger on; `qgis/layers/
+  collab_buffer_100km.qlr` shares the styled, notify-wired layer.
+  `sql/drop_collab_buffer_view.sql` reverts just this addition.
 - Diagrams are now hand-authored SVG (`docs/diagrams/*.svg`) rendered to
   PNG via Inkscape (`nix run .#diagrams` / `scripts/render-diagrams.sh`),
   not Mermaid -- `architecture.svg` replaces the old Mermaid flowchart in

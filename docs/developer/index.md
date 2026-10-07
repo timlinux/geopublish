@@ -12,9 +12,11 @@
   (`geo_bbox_from_coordinate_words`), and the `pdftocairo`/`gdal_translate`
   pipeline (`pdf_to_geotiff`, `batch_convert`).
 - `sql/create_collab_table.sql`, `sql/drop_collab_notify.sql`,
-  `qgis/layers/collab.qlr` — one-off shared "drop a pin" table, its
-  reversible `pg_notify` rollback, and its QGIS Layer Definition; not
-  wired into the CLI since it's a single named table, not a generalized
+  `sql/create_collab_buffer_view.sql`, `sql/drop_collab_buffer_view.sql`,
+  `qgis/layers/collab.qlr`, `qgis/layers/collab_buffer_100km.qlr` —
+  one-off shared "drop a pin" table, its dissolved-buffer view, their
+  reversible `pg_notify` wiring, and their QGIS Layer Definitions; not
+  wired into the CLI since they're specific named tables, not a generalized
   feature.
 
 ## `pg_notify` convention

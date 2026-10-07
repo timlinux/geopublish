@@ -90,6 +90,24 @@ rebuilding it themselves.
 
 Diagram source: `docs/diagrams/collab-table.svg`.
 
+### `collab_buffer_100km` (view)
+
+A live, dissolved 100km buffer around every `collab` pin
+(`sql/create_collab_buffer_view.sql`). Not materialized — it recomputes
+on every query, so there is nothing to keep in sync.
+
+| Column | Type | Description |
+|---|---|---|
+| `id` | `integer` | Constant `1`; gives the single output row a key, since views have no primary key of their own. |
+| `geom` | `geometry(MultiPolygon, 3857)` | `ST_Union` of a 100km `geography` buffer (geodesically correct, unlike buffering in 3857 directly) around every row in `collab`, transformed back to 3857. |
+
+Views can't carry their own trigger on the underlying table's changes, so
+`collab`'s `notify_collab_change()` trigger (above) is extended to also
+emit `pg_notify('qgis', 'collab_buffer')` — a second, independent payload
+on the same channel, for a layer built on this view to opt into via
+`qgis/layers/collab_buffer_100km.qlr`. `sql/drop_collab_buffer_view.sql`
+drops the view and reverts the trigger to the single-payload version.
+
 ## Functional requirements
 
 | ID | Requirement |
