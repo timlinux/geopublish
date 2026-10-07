@@ -169,10 +169,20 @@ a filled shape is a `polygon` (e.g. a building); an unfilled stroked path
 is a `line` (e.g. a parcel boundary or road); a path whose bounding box
 is very small (a vertex marker, under 10pt diagonal) is a `point`,
 regardless of fill. This project does not attempt to reconstruct closed
-parcel polygons from a network of shared boundary *lines* — Natural Earth
-real-world cadastral exports draw boundaries as a planar graph of edges,
-not one closed ring per parcel, and dissolving that network into faces is
-a separate, harder problem than this command takes on.
+parcel polygons from a network of shared boundary *lines* — real-world
+cadastral exports draw boundaries as a planar graph of edges, not one
+closed ring per parcel, and dissolving that network into faces is a
+separate, harder problem than this command takes on.
+
+**Not every PDF has extractable vector content to begin with.** Some
+exports (confirmed on the Netze BW "Netzauskunft" sample in `PLANS/`)
+bake the entire cadastral drawing in as an embedded raster image, with
+only the frame border and text labels as real vector content — it can
+*look* like crisp vector line art once rendered, but there's no path
+data behind it to extract. If a page yields zero features and the SVG
+export contains an embedded `<image>`, `extract_vector_features` raises
+rather than silently reporting `0, 0, 0`; `prepare pdf-to-geotiff` +
+`publish raster` is the only viable path for that page.
 
 **Label matching** is nearest-text-line-to-bbox-centre, within a
 kind-specific radius (12pt for points, 80pt for lines/polygons — tight

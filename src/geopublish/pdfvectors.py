@@ -212,6 +212,14 @@ def extract_vector_features(pdf: Path, page: int, zone: int = 32) -> list[Extrac
         kind, geo_coords, anchor = result
         label = _nearest_label(anchor, labels, label_radius[kind])
         features.append(ExtractedFeature(kind, geo_coords, label))
+
+    if not features and "<image" in svg:
+        raise RuntimeError(
+            "no vector paths found, and this page embeds raster image(s) -- "
+            "its map content is almost certainly a rasterized basemap baked "
+            "into the PDF, not real vector geometry. Use 'prepare "
+            "pdf-to-geotiff' + 'publish raster' for this page instead."
+        )
     return features
 
 

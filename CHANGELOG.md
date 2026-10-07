@@ -88,6 +88,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 
 ### Fixed
 
+- `geopublish publish pdf-vectors` reported `0 points, 0 lines, 0
+  polygons` with no explanation on a page whose map content turns out to
+  be an embedded raster image rather than vector paths (confirmed on the
+  `PLANS/` Netze BW sample: 72 of its 81 `<path>` elements are text-glyph
+  outlines, the other 9 are the frame/title-block/page-canvas, and the
+  actual cadastral drawing is 8 embedded `2891x1893` PNGs). It now raises
+  a clear error pointing at `prepare pdf-to-geotiff` instead.
 - `nix run .#docs`/`.#format`/`.#test`/`.#lint` and `bin/geopublish` resolved
   their repo root from the script's own (Nix-store, read-only) location,
   which broke `docs.sh`'s `cp` into `docs/specification.md` with "Read-only

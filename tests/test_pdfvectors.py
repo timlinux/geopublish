@@ -60,6 +60,24 @@ BBOX_FIXTURE = """<?xml version="1.0"?>
 </body>
 </html>"""
 
+# Same frame as above, but the map content is a single embedded raster
+# image (no drawn content paths at all) -- this is what the real Netze
+# BW export turned out to be: a rasterized basemap baked into the PDF,
+# not vector geometry.
+RASTER_BACKED_SVG_FIXTURE = """<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="2383.92pt" height="1684.08pt"
+     viewBox="0 0 2383.92 1684.08">
+<g>
+<path fill="none" stroke-width="1" stroke="rgb(0%, 0%, 0%)"
+      d="M -0.00145072 0.000346254 L 2383.921251 0.000346254 L 2383.921251 1684.08 L -0.00145072 1684.08 L -0.00145072 0.000346254 "
+      transform="matrix(0.999454, 0, 0, -0.999454, 0.610825, 1683.160502)"/>
+<path fill="none" stroke-width="1" stroke="rgb(0%, 0%, 0%)"
+      d="M 56.693567 155.905782 L 2369.745542 155.905782 L 2369.745542 1669.9082 L 56.693567 1669.9082 L 56.693567 155.905782 "
+      transform="matrix(0.999454, 0, 0, -0.999454, 0.610825, 1683.160502)"/>
+<image x="0" y="0" width="2891" height="1893" xlink:href="data:image/png;base64,AA=="/>
+</g>
+</svg>"""
+
 PT_BBOX = (57.273437, 14.163868, 2369.062486, 1527.339845)
 GEO_BBOX = (467488.48, 5307061.26, 467896.48, 5306794.20)
 
@@ -171,6 +189,20 @@ def test_extract_vector_features_end_to_end(monkeypatch):
 
     point = next(f for f in features if f.kind == "point")
     assert point.label is None
+
+
+def test_extract_vector_features_raises_for_raster_backed_page(monkeypatch):
+    def fake_run(cmd):
+        if "-svg" in cmd:
+            return RASTER_BACKED_SVG_FIXTURE
+        if "-bbox" in cmd:
+            return BBOX_FIXTURE
+        raise AssertionError(f"unexpected command: {cmd}")
+
+    monkeypatch.setattr("geopublish.pdfvectors._run", fake_run)
+
+    with pytest.raises(RuntimeError, match="rasterized basemap"):
+        extract_vector_features(pdf="dummy.pdf", page=1, zone=32)
 
 
 def test_load_features_creates_tables_and_inserts(monkeypatch):

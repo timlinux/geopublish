@@ -71,6 +71,14 @@ with `label = NULL` rather than a wrong guess.
 `--utm-zone`/`--srs`. One bad page is reported and skipped; the rest of
 the batch still runs.
 
+**Not every PDF has vector content to extract.** The `PLANS/` sample
+(a Netze BW "Netzauskunft" export) turned out to bake its entire
+cadastral drawing in as an embedded raster image — only the frame
+border and text labels are real vector data, even though it renders as
+crisp line art. For a page like that, `pdf-vectors` reports a clear
+error instead of silently loading nothing; use `prepare pdf-to-geotiff`
++ `publish raster` for it instead (see above).
+
 ## Collaboration layer
 
 A shared "drop a pin with your name" layer, EPSG:3857:
