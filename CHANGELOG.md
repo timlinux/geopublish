@@ -60,6 +60,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
   API key) and updates `temperature`/`temperature_updated_at` in place.
   One city's fetch failing doesn't stop the rest; the command reports
   how many succeeded and how many failed.
+- Docs site now uses the Kartoza Brand Pack v0.1 theme (logo, favicon,
+  Nunito/JetBrains Mono fonts, light/dark palette, flat admonitions and
+  tables), vendored from `kartoza/InfrastructureMapper` so every Kartoza
+  project's docs look the same: `docs/stylesheets/kartoza-tokens.css`,
+  `docs/stylesheets/extra.css`, `docs/assets/brand/*`, and the matching
+  `mkdocs.yml` theme/markdown_extensions config.
 - Diagrams are now hand-authored SVG (`docs/diagrams/*.svg`) rendered to
   PNG via Inkscape (`nix run .#diagrams` / `scripts/render-diagrams.sh`),
   not Mermaid -- `architecture.svg` replaces the old Mermaid flowchart in

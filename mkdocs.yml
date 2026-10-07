@@ -2,8 +2,123 @@
 # SPDX-License-Identifier: MIT
 site_name: geopublish
 site_description: Publish vector and raster data to PostGIS, view in QGIS.
+site_author: Kartoza
+copyright: >
+  &copy; Kartoza — Made with 💗 by
+  <a href="https://kartoza.com">Kartoza</a>
+  &middot; <a href="https://github.com/sponsors/kartoza">Donate</a>
+  &middot; <a href="https://github.com/kartoza/geopublish">GitHub</a>
+
+repo_url: https://github.com/kartoza/geopublish
+repo_name: kartoza/geopublish
+edit_uri: edit/main/docs/
+
 theme:
   name: material
+  # Kartoza Brand Pack v0.1 -- same theme as other Kartoza projects (e.g.
+  # github.com/kartoza/InfrastructureMapper); palette/type tokens live in
+  # kartoza-tokens.css, consumed by extra.css. Keep this project's own
+  # nav/content -- only the look is shared.
+  logo: assets/brand/kartoza-symbol-color.svg
+  favicon: assets/brand/favicon.png
+  font:
+    text: Nunito
+    code: JetBrains Mono
+  language: en
+  palette:
+    - media: "(prefers-color-scheme: light)"
+      scheme: default
+      primary: custom
+      accent: custom
+      toggle:
+        icon: material/weather-night
+        name: Switch to dark mode
+    - media: "(prefers-color-scheme: dark)"
+      scheme: slate
+      primary: custom
+      accent: custom
+      toggle:
+        icon: material/weather-sunny
+        name: Switch to light mode
+  features:
+    - announce.dismiss
+    - content.action.edit
+    - content.action.view
+    - content.code.annotate
+    - content.code.copy
+    - content.tabs.link
+    - content.tooltips
+    - navigation.footer
+    - navigation.indexes
+    - navigation.instant
+    - navigation.instant.progress
+    - navigation.path
+    - navigation.sections
+    - navigation.tabs
+    - navigation.tabs.sticky
+    - navigation.top
+    - navigation.tracking
+    - search.highlight
+    - search.share
+    - search.suggest
+    - toc.follow
+  icon:
+    repo: fontawesome/brands/github
+    edit: material/file-edit-outline
+    view: material/eye-outline
+
+extra:
+  social:
+    - icon: fontawesome/brands/github
+      link: https://github.com/kartoza/geopublish
+      name: GitHub repository
+    - icon: fontawesome/solid/heart
+      link: https://github.com/sponsors/kartoza
+      name: Sponsor on GitHub
+  generator: false
+
+extra_css:
+  - stylesheets/kartoza-tokens.css
+  - stylesheets/extra.css
+
+markdown_extensions:
+  - abbr
+  - admonition
+  - attr_list
+  - def_list
+  - footnotes
+  - md_in_html
+  - tables
+  - toc:
+      permalink: true
+      toc_depth: 4
+  - pymdownx.betterem
+  - pymdownx.caret
+  - pymdownx.details
+  - pymdownx.emoji:
+      emoji_index: !!python/name:material.extensions.emoji.twemoji
+      emoji_generator: !!python/name:material.extensions.emoji.to_svg
+  - pymdownx.highlight:
+      anchor_linenums: true
+      line_spans: __span
+      pygments_lang_class: true
+  - pymdownx.inlinehilite
+  - pymdownx.keys
+  - pymdownx.mark
+  - pymdownx.smartsymbols
+  - pymdownx.snippets
+  - pymdownx.superfences
+  - pymdownx.tabbed:
+      alternate_style: true
+      slugify: !!python/object/apply:pymdownx.slugs.slugify
+        kwds: {case: lower}
+  - pymdownx.tasklist:
+      custom_checkbox: true
+  - pymdownx.tilde
+
+plugins:
+  - search:
+      lang: en
 
 nav:
   - Overview: index.md

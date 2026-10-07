@@ -56,6 +56,17 @@ nix run .#diagrams   # or: scripts/render-diagrams.sh
 
 then commit both the `.svg` source and the regenerated `.png`.
 
+## Docs theme
+
+`mkdocs.yml` plus `docs/stylesheets/kartoza-tokens.css`,
+`docs/stylesheets/extra.css`, and `docs/assets/brand/*` are the **Kartoza
+Brand Pack v0.1**, vendored byte-for-byte from
+[kartoza/InfrastructureMapper](https://github.com/kartoza/InfrastructureMapper)
+so this project's docs look the same as other Kartoza projects'. Don't
+hand-edit the vendored files — if the brand pack changes upstream, pull a
+fresh copy of all four and diff before replacing. `mkdocs.yml`'s own
+`nav`/`site_name`/`site_description` stay project-specific.
+
 ## Running checks locally
 
 ```bash

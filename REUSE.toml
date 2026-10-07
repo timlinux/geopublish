@@ -15,3 +15,14 @@ path = [
 ]
 SPDX-FileCopyrightText = "2026 Kartoza"
 SPDX-License-Identifier = "MIT"
+
+# Kartoza Brand Pack assets — vendored from
+# github.com/kartoza/InfrastructureMapper (owned and licensed by
+# Kartoza), used here under this project's MIT umbrella. Left
+# byte-identical to upstream, so licensed here rather than annotated
+# in-file.
+[[annotations]]
+path = ["docs/assets/brand/**"]
+precedence = "aggregate"
+SPDX-FileCopyrightText = "Kartoza (Pty) Ltd"
+SPDX-License-Identifier = "MIT"
