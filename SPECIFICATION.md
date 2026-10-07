@@ -73,10 +73,20 @@ EPSG:3857.
 SELECT` on its `id` sequence), so every connected role can add, move, and
 delete pins — not just the role that created the table.
 
+A statement-level `AFTER INSERT OR UPDATE OR DELETE OR TRUNCATE` trigger
+(`collab_change_notify`) calls `pg_notify('qgis', 'collab')` on every CRUD
+event. The channel is `qgis` because QGIS's PostgreSQL provider hardcodes
+`LISTEN qgis` — it is not configurable — so every notify-enabled table in
+this project shares that one channel and is told apart by payload
+(`'collab'` here, matching `setRefreshOnNotifyMessage()` on the layer).
+`sql/drop_collab_notify.sql` reverts just this trigger/function, leaving
+the table and its data untouched.
+
 Shared via `qgis/layers/collab.qlr` — a QGIS Layer Definition carrying the
-point styling and edit-form configuration (see the
-[user guide](docs/user/index.md#collaboration-layer)), so participants get
-the same look and form without rebuilding it themselves.
+point styling, edit-form configuration, and the refresh-on-notify wiring
+above (see the [user guide](docs/user/index.md#collaboration-layer)), so
+participants get the same look, form, and live updates without
+rebuilding it themselves.
 
 Diagram source: `docs/diagrams/collab-table.svg`.
 

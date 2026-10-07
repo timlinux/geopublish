@@ -11,9 +11,25 @@
   (`frame_bbox_from_svg`), corner-coordinate detection
   (`geo_bbox_from_coordinate_words`), and the `pdftocairo`/`gdal_translate`
   pipeline (`pdf_to_geotiff`, `batch_convert`).
-- `sql/create_collab_table.sql`, `qgis/layers/collab.qlr` — one-off shared
-  "drop a pin" table + its QGIS Layer Definition; not wired into the CLI
-  since it's a single named table, not a generalized feature.
+- `sql/create_collab_table.sql`, `sql/drop_collab_notify.sql`,
+  `qgis/layers/collab.qlr` — one-off shared "drop a pin" table, its
+  reversible `pg_notify` rollback, and its QGIS Layer Definition; not
+  wired into the CLI since it's a single named table, not a generalized
+  feature.
+
+## `pg_notify` convention
+
+QGIS's PostgreSQL provider hardcodes `LISTEN qgis` (verified against the
+provider source, not configurable), so every table in this project that
+wants a QGIS layer to auto-refresh on change uses channel `qgis` and a
+table-specific payload (e.g. `'collab'`), matched by the layer's
+`setRefreshOnNotifyMessage()`. See `sql_1/0001_poi_notify.up.sql` for the
+original worked example (the `poi` table) and
+`sql/create_collab_table.sql` for `collab`'s. Keep the trigger
+statement-level (`FOR EACH STATEMENT`, not `FOR EACH ROW`) so a bulk
+write fires one notification, and include `TRUNCATE` in the trigger
+events. Ship a `drop_*_notify.sql` alongside any new one, reverting just
+the trigger/function (not the table).
 
 ## Adding a new publish format
 

@@ -7,7 +7,7 @@
     </layer-tree-layer>
   </layer-tree-group>
   <maplayers>
-    <maplayer type="vector" hasScaleBasedVisibilityFlag="0" autoRefreshEnabled="0" autoRefreshTime="0" simplifyDrawingHints="1" simplifyAlgorithm="0" simplifyMaxScale="1" simplifyLocal="1" simplifyDrawingTol="1" minScale="100000000" maxScale="0" labelsEnabled="0" refreshOnNotifyEnabled="0" wkbType="Point" geometry="Point">
+    <maplayer type="vector" hasScaleBasedVisibilityFlag="0" autoRefreshEnabled="0" autoRefreshTime="0" simplifyDrawingHints="1" simplifyAlgorithm="0" simplifyMaxScale="1" simplifyLocal="1" simplifyDrawingTol="1" minScale="100000000" maxScale="0" labelsEnabled="0" refreshOnNotifyEnabled="1" refreshOnNotifyMessage="collab" wkbType="Point" geometry="Point">
       <extent>
         <xmin>600000</xmin>
         <ymin>6400000</ymin>

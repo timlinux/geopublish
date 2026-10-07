@@ -85,5 +85,5 @@
 
   <!-- devshell boundary -->
   <rect x="12" y="105" width="886" height="190" rx="10" fill="none" stroke="#9aa5b8" stroke-width="1.2" stroke-dasharray="5,4"/>
-  <text x="26" y="122" font-size="11" fill="#6b7589">nix develop (flake.nix) devShell</text>
+  <text x="884" y="122" text-anchor="end" font-size="11" fill="#6b7589">nix develop (flake.nix) devShell</text>
 </svg>

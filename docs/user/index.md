@@ -70,6 +70,32 @@ styled (red circle marker) and with its edit form configured (a single
 anyone with the same
 `config/pg_service.conf` set up can load it straight away.
 
+### Live updates
+
+`create_collab_table.sql` also wires a statement-level trigger that fires
+`pg_notify('qgis', 'collab')` on every insert/update/delete/truncate.
+QGIS's PostgreSQL provider only ever issues `LISTEN qgis` — that channel
+is hardcoded in QGIS itself, not configurable — so every notify-enabled
+layer in this project uses channel `qgis` and tells `collab.qlr` apart
+from others by payload (`'collab'`). The shared `.qlr` already sets
+`refreshOnNotifyEnabled`/`refreshOnNotifyMessage` for this, so once
+loaded, everyone's map should refresh within a second or two of anyone
+else adding a pin — no manual re-run needed. If a loaded layer doesn't
+auto-refresh (e.g. an older QGIS that ignores those two attributes), set
+it by hand in the QGIS Python console with that layer selected:
+
+```python
+lyr = iface.activeLayer()
+lyr.setRefreshOnNotifyEnabled(True)
+lyr.setRefreshOnNotifyMessage('collab')
+```
+
+To remove just the notify wiring later (keeping the table and its data):
+
+```bash
+command psql -f sql/drop_collab_notify.sql
+```
+
 ## Viewing in QGIS
 
 1. Copy `config/pg_service.conf.example` to `config/pg_service.conf` and

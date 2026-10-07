@@ -36,6 +36,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
   INSERT, UPDATE, DELETE` on the table (and `USAGE, SELECT` on its `id`
   sequence) to `PUBLIC`, so any connected role can edit pins, not just the
   table's owner.
+- `collab` now fires `pg_notify('qgis', 'collab')` on every CRUD event via
+  a statement-level `AFTER INSERT OR UPDATE OR DELETE OR TRUNCATE`
+  trigger, matching the pattern in `sql_1/0001_poi_notify.up.sql`: channel
+  `qgis` because QGIS's PostgreSQL provider hardcodes `LISTEN qgis`, and
+  payload `'collab'` for `setRefreshOnNotifyMessage()` to match on.
+  `qgis/layers/collab.qlr` now sets `refreshOnNotifyEnabled`/
+  `refreshOnNotifyMessage` so a loaded layer auto-refreshes without extra
+  setup. `sql/drop_collab_notify.sql` reverts just the trigger/function.
 - Diagrams are now hand-authored SVG (`docs/diagrams/*.svg`) rendered to
   PNG via Inkscape (`nix run .#diagrams` / `scripts/render-diagrams.sh`),
   not Mermaid -- `architecture.svg` replaces the old Mermaid flowchart in
