@@ -11,6 +11,7 @@ path = [
   ".env.example",
   "config/pg_service.conf.example",
   "flake.lock",
+  "qgis/layers/*.qlr",
 ]
 SPDX-FileCopyrightText = "2026 Kartoza"
 SPDX-License-Identifier = "MIT"

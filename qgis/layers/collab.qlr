@@ -1,0 +1,110 @@
+<!DOCTYPE qgis-layer-definition>
+<qlr>
+  <layer-tree-group>
+    <customproperties/>
+    <layer-tree-layer expanded="1" checked="Qgis" name="collab" providerKey="postgres" source="service='workshop' sslmode=disable key='id' srid=3857 type=Point checkPrimaryKeyUnicity='1' table=&quot;public&quot;.&quot;collab&quot; (geom)" id="collab_layer_00000001">
+      <customproperties/>
+    </layer-tree-layer>
+  </layer-tree-group>
+  <maplayers>
+    <maplayer type="vector" hasScaleBasedVisibilityFlag="0" autoRefreshEnabled="0" autoRefreshTime="0" simplifyDrawingHints="1" simplifyAlgorithm="0" simplifyMaxScale="1" simplifyLocal="1" simplifyDrawingTol="1" minScale="100000000" maxScale="0" labelsEnabled="0" refreshOnNotifyEnabled="0" wkbType="Point" geometry="Point">
+      <extent>
+        <xmin>600000</xmin>
+        <ymin>6400000</ymin>
+        <xmax>1600000</xmax>
+        <ymax>7300000</ymax>
+      </extent>
+      <wgs84extent>
+        <xmin>5.4</xmin>
+        <ymin>49.8</ymin>
+        <xmax>14.4</xmax>
+        <ymax>54.9</ymax>
+      </wgs84extent>
+      <id>collab_layer_00000001</id>
+      <datasource>service='workshop' sslmode=disable key='id' srid=3857 type=Point checkPrimaryKeyUnicity='1' table="public"."collab" (geom)</datasource>
+      <keywordList><value></value></keywordList>
+      <layername>collab</layername>
+      <srs>
+        <spatialrefsys nativeFormat="Wkt">
+          <wkt>PROJCS["WGS 84 / Pseudo-Mercator",BASEGEOGCRS["WGS 84",DATUM["World Geodetic System 1984",ELLIPSOID["WGS 84",6378137,298.257223563,LENGTHUNIT["metre",1]]],PRIMEM["Greenwich",0,ANGLEUNIT["degree",0.0174532925199433]],ID["EPSG",4326]],CONVERSION["Popular Visualisation Pseudo-Mercator",METHOD["Popular Visualisation Pseudo Mercator",ID["EPSG",1024]],PARAMETER["Latitude of natural origin",0,ANGLEUNIT["degree",0.0174532925199433],ID["EPSG",8801]],PARAMETER["Longitude of natural origin",0,ANGLEUNIT["degree",0.0174532925199433],ID["EPSG",8802]],PARAMETER["False easting",0,LENGTHUNIT["metre",1],ID["EPSG",8806]],PARAMETER["False northing",0,LENGTHUNIT["metre",1],ID["EPSG",8807]]],CS[Cartesian,2],AXIS["easting (X)",east,ORDER[1],LENGTHUNIT["metre",1]],AXIS["northing (Y)",north,ORDER[2],LENGTHUNIT["metre",1]],USAGE[SCOPE["Web mapping and visualisation."],AREA["World between 85.06°S and 85.06°N."],BBOX[-85.06,-180,85.06,180]],ID["EPSG",3857]]</wkt>
+          <proj4>+proj=merc +a=6378137 +b=6378137 +lat_ts=0 +lon_0=0 +x_0=0 +y_0=0 +k=1 +units=m +nadgrids=@null +wktext +no_defs</proj4>
+          <srsid>3857</srsid>
+          <srid>3857</srid>
+          <authid>EPSG:3857</authid>
+          <description>WGS 84 / Pseudo-Mercator</description>
+          <projectionacronym>merc</projectionacronym>
+          <ellipsoidacronym>WGS84</ellipsoidacronym>
+          <geographicflag>false</geographicflag>
+        </spatialrefsys>
+      </srs>
+      <provider encoding="UTF-8">postgres</provider>
+      <renderer-v2 type="singleSymbol" symbollevels="0" forceraster="0" enableorderby="0">
+        <symbols>
+          <symbol type="marker" name="0" alpha="1" clip_to_extent="1" force_rhr="0">
+            <layer class="SimpleMarker" enabled="1" locked="0" pass="0">
+              <Option type="Map">
+                <Option type="QString" name="color" value="226,26,28,255"/>
+                <Option type="QString" name="name" value="circle"/>
+                <Option type="QString" name="outline_color" value="35,35,35,255"/>
+                <Option type="QString" name="outline_style" value="solid"/>
+                <Option type="QString" name="outline_width" value="0.4"/>
+                <Option type="QString" name="size" value="3.2"/>
+                <Option type="QString" name="size_unit" value="MM"/>
+                <Option type="QString" name="horizontal_anchor_point" value="1"/>
+                <Option type="QString" name="vertical_anchor_point" value="1"/>
+              </Option>
+            </layer>
+          </symbol>
+        </symbols>
+      </renderer-v2>
+      <blendMode>0</blendMode>
+      <featureBlendMode>0</featureBlendMode>
+      <layerOpacity>1</layerOpacity>
+      <fieldConfiguration>
+        <field name="id" configurationFlags="None">
+          <editWidget type="Hidden">
+            <config>
+              <Option type="Map"/>
+            </config>
+          </editWidget>
+        </field>
+        <field name="name" configurationFlags="None">
+          <editWidget type="TextEdit">
+            <config>
+              <Option type="Map">
+                <Option type="bool" name="IsMultiline" value="false"/>
+                <Option type="bool" name="UseHtml" value="false"/>
+              </Option>
+            </config>
+          </editWidget>
+        </field>
+      </fieldConfiguration>
+      <aliases>
+        <alias field="id" name="" index="0"/>
+        <alias field="name" name="Your name" index="1"/>
+      </aliases>
+      <constraints>
+        <constraint field="name" constraints="1" notnull_strength="1" unique_strength="0" exp_strength="0"/>
+      </constraints>
+      <constraintExpressions>
+        <constraint field="name" exp="" desc=""/>
+      </constraintExpressions>
+      <editform></editform>
+      <editorlayout>generatedlayout</editorlayout>
+      <attributeEditorForm>
+        <attributeEditorField name="name" index="0" showLabel="1"/>
+      </attributeEditorForm>
+      <featformsuppress>0</featformsuppress>
+      <editable>
+        <field name="id" editable="0"/>
+        <field name="name" editable="1"/>
+      </editable>
+      <labelOnTop>
+        <field name="id" labelOnTop="0"/>
+        <field name="name" labelOnTop="0"/>
+      </labelOnTop>
+      <previewExpression>"name"</previewExpression>
+      <mapTip></mapTip>
+    </maplayer>
+  </maplayers>
+</qlr>

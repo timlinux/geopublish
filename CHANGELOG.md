@@ -27,6 +27,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
   Accepts a single PDF or a directory for batch conversion; every page of
   every PDF is converted by default, and one bad sheet doesn't abort the
   rest of the batch.
+- `sql/create_collab_table.sql`: a shared `collab (id, name, geom)` table,
+  EPSG:3857, for a "drop a pin with your name" workshop layer.
+- `qgis/layers/collab.qlr`: a QGIS Layer Definition for the `collab` table
+  (styled single-symbol point renderer, edit form with a "Your name" text
+  field, `id` hidden) referencing the `workshop` PG service by name, so it
+  carries no embedded credentials and is safe to share.
 
 ### Fixed
 

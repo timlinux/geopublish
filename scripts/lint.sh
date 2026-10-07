@@ -7,5 +7,5 @@ REPO_ROOT="$(git rev-parse --show-toplevel)"
 cd "$REPO_ROOT"
 
 ruff check src tests
-codespell src tests docs README.md SPECIFICATION.md PACKAGES.md CHANGELOG.md
+codespell src tests sql docs README.md SPECIFICATION.md PACKAGES.md CHANGELOG.md
 reuse lint

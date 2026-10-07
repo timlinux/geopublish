@@ -63,6 +63,22 @@ different zone. If a sheet is missing at least two easting and two
 northing labels, that page is reported as failed and the rest of the
 batch still runs.
 
+## Collaboration layer
+
+A shared "drop a pin with your name" layer, EPSG:3857:
+
+```bash
+psql -f sql/create_collab_table.sql
+```
+
+Creates `collab (id, name, geom)`. Share `qgis/layers/collab.qlr` with
+participants — it's a QGIS Layer Definition file: a double-click (or
+drag-and-drop into QGIS) adds the layer already styled (red circle marker)
+and with its edit form configured (a single "Your name" text field; `id` is
+hidden/read-only). It points at the `workshop` PG service by name, so it
+carries no embedded credentials — anyone with the same
+`config/pg_service.conf` set up can load it straight away.
+
 ## Viewing in QGIS
 
 1. Copy `config/pg_service.conf.example` to `config/pg_service.conf` and fill
