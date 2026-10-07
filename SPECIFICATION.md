@@ -64,6 +64,7 @@ flowchart LR
 | FR4 | `geopublish status` confirms the DB connection and lists every published vector (`geometry_columns`) and raster (`raster_columns`) table. |
 | FR5 | All connection details are read from environment variables (`PGHOST`, `PGPORT`, `PGDATABASE`, `PGUSER`, `PGPASSWORD`, `PGSSLMODE`), loaded from a gitignored `.env`; missing required variables fail fast with a clear message. |
 | FR6 | A `pg_service.conf` template lets QGIS and `psql` connect via `PGSERVICEFILE` without re-entering credentials. |
+| FR7 | `geopublish docs-serve` (alias `gp docs-serve`) serves the mkdocs site locally, including this specification. |
 
 ## Non-functional requirements
 
@@ -89,6 +90,9 @@ flowchart LR
 
 - `README.md` — quickstart and QGIS connection steps.
 - `PACKAGES.md` — annotated dependency list.
-- `docs/` (mkdocs) — user, admin, and developer guides, published via
-  `nix run .#docs`.
+- `docs/` (mkdocs) — user, admin, and developer guides, plus this
+  specification, published via `nix run .#docs` or `gp docs-serve`. The
+  specification page is generated from this file by `scripts/docs.sh`
+  (copied to `docs/specification.md`, which is gitignored) so there is a
+  single source of truth.
 - This file, updated whenever functional requirements change.

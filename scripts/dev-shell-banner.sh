@@ -21,17 +21,18 @@ cat <<'EOF'
 
   geopublish dev shell — publish vector/raster data to PostGIS, view in QGIS
 
-  Commands:
-    geopublish --help          Show CLI usage
-    geopublish init-db         Create postgis/postgis_raster extensions
-    geopublish publish vector  Load a vector file into PostGIS (ogr2ogr)
-    geopublish publish raster  Load a raster file into PostGIS (raster2pgsql)
-    geopublish status          Test the DB connection, list published layers
+  Commands (gp is a short alias for geopublish):
+    gp --help          Show CLI usage
+    gp init-db         Create postgis/postgis_raster extensions
+    gp publish vector  Load a vector file into PostGIS (ogr2ogr)
+    gp publish raster  Load a raster file into PostGIS (raster2pgsql)
+    gp status          Test the DB connection, list published layers
+    gp docs-serve      Serve the docs site locally (mkdocs serve)
 
-    nix run .#test             Run the test suite
-    nix run .#docs             Serve docs locally (mkdocs serve)
-    nix run .#format           Format code (black)
-    nix run .#lint             Lint code (ruff, codespell, reuse)
+    nix run .#test      Run the test suite
+    nix run .#docs      Serve docs locally (mkdocs serve)
+    nix run .#format    Format code (black)
+    nix run .#lint      Lint code (ruff, codespell, reuse)
 
   Made with 💗 by Kartoza | https://kartoza.com
 EOF

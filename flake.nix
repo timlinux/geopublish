@@ -54,18 +54,21 @@
           buildInputs = devTools;
 
           shellHook = ''
-            export PYTHONPATH="${self}/src:$PYTHONPATH"
-            export PATH="${self}/bin:$PATH"
-            if [ -f "${self}/.pre-commit-config.yaml" ] && [ -d .git ]; then
+            repo_root="$(git rev-parse --show-toplevel 2>/dev/null || pwd)"
+            export PYTHONPATH="$repo_root/src:$PYTHONPATH"
+            export PATH="$repo_root/bin:$PATH"
+            if [ -f "$repo_root/.pre-commit-config.yaml" ] && [ -d "$repo_root/.git" ]; then
               pre-commit install --install-hooks >/dev/null 2>&1 || true
             fi
-            bash "${self}/scripts/dev-shell-banner.sh" || true
+            bash "$repo_root/scripts/dev-shell-banner.sh" || true
+            unset repo_root
           '';
         };
 
         apps = {
           default = mkApp "${self}/bin/geopublish";
           geopublish = mkApp "${self}/bin/geopublish";
+          gp = mkApp "${self}/bin/gp";
           test = mkApp "${self}/scripts/test.sh";
           docs = mkApp "${self}/scripts/docs.sh";
           format = mkApp "${self}/scripts/format.sh";

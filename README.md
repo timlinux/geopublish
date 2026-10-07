@@ -19,17 +19,22 @@ cp .env.example .env
 $EDITOR .env
 
 # create the postgis + postgis_raster extensions (once, per database)
-geopublish init-db
+gp init-db
 
 # publish a vector file
-geopublish publish vector path/to/data.gpkg --table my_layer
+gp publish vector path/to/data.gpkg --table my_layer
 
 # publish a raster file
-geopublish publish raster path/to/orthophoto.tif --table my_raster
+gp publish raster path/to/orthophoto.tif --table my_raster
 
 # see what's published
-geopublish status
+gp status
+
+# browse the docs locally
+gp docs-serve
 ```
+
+`gp` is a short alias for `geopublish` — both run the same CLI.
 
 ## Viewing in QGIS
 
@@ -44,8 +49,9 @@ geopublish status
 ## Project layout
 
 ```
-flake.nix              Nix flake: devShell + apps (geopublish, test, docs, format, lint)
+flake.nix              Nix flake: devShell + apps (geopublish, gp, test, docs, format, lint)
 bin/geopublish          CLI entrypoint
+bin/gp                  Short alias for bin/geopublish
 src/geopublish/         Python package (cli, config, db, vector, raster)
 scripts/                Shell scripts backing the flake apps and dev-shell banner
 config/                 QGIS/psql service-file template
@@ -68,7 +74,7 @@ automatically the first time you enter the dev shell.
 
 ## Documents
 
-- [SPECIFICATION.md](SPECIFICATION.md) — user stories, architecture, requirements
+- [SPECIFICATION.md](SPECIFICATION.md) — user stories, architecture, requirements (also published in the docs site, see `gp docs-serve`)
 - [PACKAGES.md](PACKAGES.md) — annotated dependency list
 - [CHANGELOG.md](CHANGELOG.md) — Keep a Changelog
 

@@ -1,5 +1,6 @@
 # SPDX-FileCopyrightText: 2026 Kartoza
 # SPDX-License-Identifier: MIT
+import subprocess
 from pathlib import Path
 
 import click
@@ -8,6 +9,8 @@ from geopublish.config import load_config
 from geopublish.db import ensure_postgis, list_layers
 from geopublish.raster import publish_raster
 from geopublish.vector import publish_vector
+
+REPO_ROOT = Path(__file__).resolve().parents[2]
 
 
 @click.group()
@@ -76,6 +79,12 @@ def status() -> None:
         return
     for layer in layers:
         click.echo(f"  {layer['kind']:6s} {layer['schema']}.{layer['name']}")
+
+
+@cli.command("docs-serve")
+def docs_serve() -> None:
+    """Serve the mkdocs site locally for live preview."""
+    subprocess.run([str(REPO_ROOT / "scripts" / "docs.sh")], check=True)
 
 
 def main() -> None:

@@ -23,6 +23,12 @@ def test_publish_raster_help():
     assert "--tile-size" in result.output
 
 
+def test_docs_serve_help():
+    result = CliRunner().invoke(cli, ["docs-serve", "--help"])
+    assert result.exit_code == 0
+    assert "mkdocs" in result.output
+
+
 def test_status_without_config_fails_cleanly():
     result = CliRunner().invoke(cli, ["status"], env={"PGHOST": ""})
     assert result.exit_code != 0

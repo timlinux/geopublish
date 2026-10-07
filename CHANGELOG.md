@@ -14,3 +14,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
   `publish raster`, `status`), pre-commit hooks, pytest suite, mkdocs site,
   CI workflow, and a QGIS `pg_service.conf` template for credential-free
   connections.
+- `gp` short alias for the `geopublish` CLI.
+- `geopublish docs-serve` / `gp docs-serve` command to preview the docs site
+  locally without needing `nix run .#docs`.
+- `SPECIFICATION.md` published as a page in the mkdocs site.
+
+### Fixed
+
+- `nix run .#docs`/`.#format`/`.#test`/`.#lint` and `bin/geopublish` resolved
+  their repo root from the script's own (Nix-store, read-only) location,
+  which broke `docs.sh`'s `cp` into `docs/specification.md` with "Read-only
+  file system". They now resolve the repo root via `git rev-parse
+  --show-toplevel` against the caller's working directory instead.

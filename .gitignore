@@ -15,6 +15,7 @@ __pycache__/
 
 # docs build
 site/
+docs/specification.md
 
 # editor
 .DS_Store
