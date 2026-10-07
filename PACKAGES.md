@@ -20,6 +20,7 @@ Annotated list of every package the flake provisions, and why.
 |---|---|---|
 | `mkdocs`, `mkdocs-material` | nixpkgs (python3Packages, same env as above) | Builds/serves `docs/`. |
 | `inkscape` | nixpkgs | Renders hand-authored SVG diagrams (`docs/diagrams/*.svg`) to PNG via `nix run .#diagrams` / `scripts/render-diagrams.sh`. Diagrams are plain SVG, not Mermaid, so they render identically wherever the PNG is embedded (GitHub, mkdocs, a PDF export). |
+| `pandoc`, `weasyprint` | nixpkgs | `gp docs-pdf` / `nix run .#docs-pdf`: converts `docs/transcript.md` to HTML (pandoc) then HTML to `transcript.pdf` (weasyprint) -- two well-established single-purpose tools rather than relying on pandoc's internal PDF-engine dispatch. |
 
 The docs site uses the **Kartoza Brand Pack v0.1** theme (`docs/stylesheets/kartoza-tokens.css`, `docs/stylesheets/extra.css`, `docs/assets/brand/*`), vendored from
 [github.com/kartoza/InfrastructureMapper](https://github.com/kartoza/InfrastructureMapper) so every Kartoza project's docs look the same — don't hand-edit these, pull a fresh copy from that repo if the brand pack updates. `theme.font` (Nunito / JetBrains Mono in `mkdocs.yml`) is mkdocs-material's Google Fonts integration: it fetches the webfonts once at `mkdocs build`/`serve` time, so the very first run needs internet access (cached after that).

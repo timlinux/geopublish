@@ -37,6 +37,8 @@
           postgis
           pkgs.qgis
           pkgs.inkscape
+          pkgs.pandoc
+          pkgs.weasyprint
           pkgs.chafa
           pkgs.pre-commit
           pkgs.black
@@ -81,6 +83,8 @@
           # Mirrors every gp data/workflow subcommand 1:1 (see
           # scripts/apps/*.sh) -- "one implementation, two entry points".
           docs-serve = mkApp "${self}/scripts/docs.sh";
+          docs-build = mkApp "${self}/scripts/docs-build.sh";
+          docs-pdf = mkApp "${self}/scripts/docs-pdf.sh";
           init-db = mkApp "${self}/scripts/apps/init-db.sh";
           publish-vector = mkApp "${self}/scripts/apps/publish-vector.sh";
           publish-raster = mkApp "${self}/scripts/apps/publish-raster.sh";

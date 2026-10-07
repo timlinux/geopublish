@@ -1,0 +1,48 @@
+<!-- SPDX-FileCopyrightText: 2026 Kartoza -->
+<!-- SPDX-License-Identifier: MIT -->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 1200" font-family="Helvetica, Arial, sans-serif">
+  <rect x="0" y="0" width="760" height="1200" fill="#ffffff"/>
+
+  <text x="20" y="26" font-size="15" font-weight="700" fill="#2b3a55">geopublish — requirements timeline</text>
+  <text x="20" y="44" font-size="11" fill="#55607a">Each «requirement»/«fix» traces back to the prompt that introduced it (see transcript.md).</text>
+
+  <!-- legend -->
+  <circle cx="470" cy="22" r="5" fill="#54A2CC"/>
+  <text x="482" y="26" font-size="11" fill="#383939">«requirement» — new capability</text>
+  <circle cx="470" cy="40" r="5" fill="#B0473C"/>
+  <text x="482" y="44" font-size="11" fill="#383939">«fix» — correction to existing behaviour</text>
+
+  <!-- timeline spine -->
+  <line x1="40" y1="64" x2="40" y2="1130" stroke="#D1D1D1" stroke-width="2"/>
+
+  <!-- rows: cx=40 node, number right-aligned at x=30, text starts x=65 -->
+  <!-- row generator values: (index, kind, text) -->
+  <g font-size="12.3" fill="#1c2a40">
+    <circle cx="40" cy="75" r="5" fill="#54A2CC"/><text x="30" y="79" text-anchor="end" font-size="10" fill="#8A8B8B">1</text><text x="65" y="79">Flake-first dependency sourcing policy (pip/npm last resort)</text>
+    <circle cx="40" cy="117" r="5" fill="#54A2CC"/><text x="30" y="121" text-anchor="end" font-size="10" fill="#8A8B8B">2</text><text x="65" y="121">Scaffold geopublish: flake devShell, CLI, publish vector/raster, QGIS story</text>
+    <circle cx="40" cy="159" r="5" fill="#54A2CC"/><text x="30" y="163" text-anchor="end" font-size="10" fill="#8A8B8B">3</text><text x="65" y="163">gp docs-serve command</text>
+    <circle cx="40" cy="201" r="5" fill="#54A2CC"/><text x="30" y="205" text-anchor="end" font-size="10" fill="#8A8B8B">4</text><text x="65" y="205">SPECIFICATION.md published in the docs site</text>
+    <circle cx="40" cy="243" r="5" fill="#54A2CC"/><text x="30" y="247" text-anchor="end" font-size="10" fill="#8A8B8B">5</text><text x="65" y="247">Gitignore the screenshot folder</text>
+    <circle cx="40" cy="285" r="5" fill="#B0473C"/><text x="30" y="289" text-anchor="end" font-size="10" fill="#8A8B8B">6</text><text x="65" y="289">Clear error instead of traceback on missing postgis extensions</text>
+    <circle cx="40" cy="327" r="5" fill="#B0473C"/><text x="30" y="331" text-anchor="end" font-size="10" fill="#8A8B8B">7</text><text x="65" y="331">postgis / postgis_raster commit independently</text>
+    <circle cx="40" cy="369" r="5" fill="#54A2CC"/><text x="30" y="373" text-anchor="end" font-size="10" fill="#8A8B8B">8</text><text x="65" y="373">prepare pdf-to-geotiff: clip + georeference PDF plan sheets</text>
+    <circle cx="40" cy="411" r="5" fill="#54A2CC"/><text x="30" y="415" text-anchor="end" font-size="10" fill="#8A8B8B">9</text><text x="65" y="415">UTM32N default, auto-detect frame, batch folder conversion</text>
+    <circle cx="40" cy="453" r="5" fill="#54A2CC"/><text x="30" y="457" text-anchor="end" font-size="10" fill="#8A8B8B">10</text><text x="65" y="457">Convenience publish shell script</text>
+    <circle cx="40" cy="495" r="5" fill="#54A2CC"/><text x="30" y="499" text-anchor="end" font-size="10" fill="#8A8B8B">11</text><text x="65" y="499">Design: publish pdf-vectors (points/lines/polygons) -- completed at #25</text>
+    <circle cx="40" cy="537" r="5" fill="#54A2CC"/><text x="30" y="541" text-anchor="end" font-size="10" fill="#8A8B8B">12</text><text x="65" y="541">collab table (name, EPSG:3857) + shareable .qlr</text>
+    <circle cx="40" cy="579" r="5" fill="#B0473C"/><text x="30" y="583" text-anchor="end" font-size="10" fill="#8A8B8B">13</text><text x="65" y="583">Move how-tos into the actual docs site, not just README</text>
+    <circle cx="40" cy="621" r="5" fill="#B0473C"/><text x="30" y="625" text-anchor="end" font-size="10" fill="#8A8B8B">14</text><text x="65" y="625">Document the command-psql / pgcli workaround</text>
+    <circle cx="40" cy="663" r="5" fill="#54A2CC"/><text x="30" y="667" text-anchor="end" font-size="10" fill="#8A8B8B">15</text><text x="65" y="667">UML diagram + attributes table per table; SVG&#8594;PNG, never Mermaid</text>
+    <circle cx="40" cy="705" r="5" fill="#54A2CC"/><text x="30" y="709" text-anchor="end" font-size="10" fill="#8A8B8B">16</text><text x="65" y="709">Flake-only tooling policy -- no ambient sandbox tools</text>
+    <circle cx="40" cy="747" r="5" fill="#B0473C"/><text x="30" y="751" text-anchor="end" font-size="10" fill="#8A8B8B">17</text><text x="65" y="751">Render + correctly place diagram images (User vs Specification page)</text>
+    <circle cx="40" cy="789" r="5" fill="#54A2CC"/><text x="30" y="793" text-anchor="end" font-size="10" fill="#8A8B8B">18</text><text x="65" y="793">collab: GRANT PUBLIC for multi-user editing</text>
+    <circle cx="40" cy="831" r="5" fill="#54A2CC"/><text x="30" y="835" text-anchor="end" font-size="10" fill="#8A8B8B">19</text><text x="65" y="835">pg_notify('qgis','collab') on every CRUD event</text>
+    <circle cx="40" cy="873" r="5" fill="#54A2CC"/><text x="30" y="877" text-anchor="end" font-size="10" fill="#8A8B8B">20</text><text x="65" y="877">capitals load + refresh-weather (Natural Earth + Open-Meteo, no key)</text>
+    <circle cx="40" cy="915" r="5" fill="#54A2CC"/><text x="30" y="919" text-anchor="end" font-size="10" fill="#8A8B8B">21</text><text x="65" y="919">collab_buffer_100km dissolved-buffer view + notify fan-out</text>
+    <circle cx="40" cy="957" r="5" fill="#54A2CC"/><text x="30" y="961" text-anchor="end" font-size="10" fill="#8A8B8B">22</text><text x="65" y="961">This transcript + requirements diagram + gp docs-pdf</text>
+    <circle cx="40" cy="999" r="5" fill="#54A2CC"/><text x="30" y="1003" text-anchor="end" font-size="10" fill="#8A8B8B">23</text><text x="65" y="1003">Theme the mkdocs site with the Kartoza Brand Pack</text>
+    <circle cx="40" cy="1041" r="5" fill="#B0473C"/><text x="30" y="1045" text-anchor="end" font-size="10" fill="#8A8B8B">24</text><text x="65" y="1045">pdf-vectors: clear error on a raster-backed PDF, not a silent zero</text>
+    <circle cx="40" cy="1083" r="5" fill="#54A2CC"/><text x="30" y="1087" text-anchor="end" font-size="10" fill="#8A8B8B">25</text><text x="65" y="1087">pdf-vectors implementation completed (points/lines/polygons live)</text>
+    <circle cx="40" cy="1125" r="5" fill="#54A2CC"/><text x="30" y="1129" text-anchor="end" font-size="10" fill="#8A8B8B">26</text><text x="65" y="1129">Full gp &#8596; nix run command symmetry</text>
+  </g>
+</svg>

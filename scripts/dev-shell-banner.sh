@@ -38,6 +38,8 @@ cat <<'EOF'
     gp format       = nix run .#format          Format code (black)
     gp lint         = nix run .#lint             Lint (ruff, codespell, reuse)
     gp diagrams     = nix run .#diagrams         Render docs/diagrams/*.svg -> png
+    gp docs-build   = nix run .#docs-build       Static mkdocs build (CI/Pages)
+    gp docs-pdf     = nix run .#docs-pdf         Render transcript.md -> transcript.pdf
 
   e.g. `nix run .#publish-vector -- file.gpkg --table foo` == `gp publish vector file.gpkg --table foo`
 

@@ -29,6 +29,12 @@ def test_docs_serve_help():
     assert "mkdocs" in result.output
 
 
+def test_docs_build_and_docs_pdf_help():
+    for args in (["docs-build", "--help"], ["docs-pdf", "--help"]):
+        result = CliRunner().invoke(cli, args)
+        assert result.exit_code == 0, args
+
+
 def test_prepare_pdf_to_geotiff_help():
     result = CliRunner().invoke(cli, ["prepare", "pdf-to-geotiff", "--help"])
     assert result.exit_code == 0

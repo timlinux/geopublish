@@ -136,6 +136,8 @@ nix run .#lint                       # == gp lint        (ruff, codespell, reuse
 nix run .#format                     # == gp format      (black)
 nix run .#docs-serve                 # == gp docs-serve  (mkdocs serve)
 nix run .#diagrams                   # == gp diagrams    (render docs/diagrams/*.svg -> png)
+nix run .#docs-build                 # == gp docs-build  (static mkdocs build, for CI/Pages)
+nix run .#docs-pdf                   # == gp docs-pdf    (docs/transcript.md -> transcript.pdf)
 
 # and every data/workflow command too, e.g.:
 nix run .#publish-vector -- file.gpkg --table foo   # == gp publish vector file.gpkg --table foo

@@ -16,6 +16,8 @@ __pycache__/
 # docs build
 site/
 docs/specification.md
+docs/.transcript-tmp.html
+transcript.pdf
 
 # generated GeoTIFFs from `gp prepare pdf-to-geotiff`
 geotiff/

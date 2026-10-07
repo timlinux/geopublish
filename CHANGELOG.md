@@ -74,6 +74,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
   `source_pdf`/`source_page`; one bad page is reported and skipped.
   Adds `docs/diagrams/pdf-vector-tables.svg`, a side-by-side UML diagram
   of the three (identical shape, differing only in `geom`'s type).
+- `docs/transcript.md`: every prompt from this project's build session,
+  each annotated with the requirement/fix it introduced, plus
+  `docs/diagrams/requirements-timeline.svg` tracing the distinct ones as
+  one UML-stereotyped timeline (feature vs. fix). `geopublish docs-pdf`
+  / `gp docs-pdf` renders the transcript to `transcript.pdf` (pandoc ->
+  HTML -> weasyprint; gitignored, not committed). `geopublish docs-build`
+  / `gp docs-build` produces the static mkdocs site, for CI/Pages.
 - Docs site now uses the Kartoza Brand Pack v0.1 theme (logo, favicon,
   Nunito/JetBrains Mono fonts, light/dark palette, flat admonitions and
   tables), vendored from `kartoza/InfrastructureMapper` so every Kartoza

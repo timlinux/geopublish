@@ -63,6 +63,16 @@ nix run .#diagrams   # or: scripts/render-diagrams.sh
 
 then commit both the `.svg` source and the regenerated `.png`.
 
+## Session transcript
+
+`docs/transcript.md` is a record of every prompt that built this
+project, each annotated with the requirement/fix it introduced, plus
+`docs/diagrams/requirements-timeline.svg` tracing the distinct ones as
+one diagram. `gp docs-pdf` / `nix run .#docs-pdf` renders the transcript
+page to `transcript.pdf` (pandoc -> HTML -> weasyprint; gitignored, not
+committed). Append to the transcript as new substantive prompts come in
+-- it's a log, not something to rewrite.
+
 ## Docs theme
 
 `mkdocs.yml` plus `docs/stylesheets/kartoza-tokens.css`,
@@ -77,10 +87,12 @@ fresh copy of all four and diff before replacing. `mkdocs.yml`'s own
 ## Running checks locally
 
 ```bash
-nix run .#test     # == gp test      pytest (no live DB required)
-nix run .#lint      # == gp lint      ruff, codespell, reuse lint
-nix run .#format    # == gp format    black
-nix run .#diagrams  # == gp diagrams  re-render docs/diagrams/*.svg -> *.png
+nix run .#test       # == gp test        pytest (no live DB required)
+nix run .#lint        # == gp lint        ruff, codespell, reuse lint
+nix run .#format      # == gp format      black
+nix run .#diagrams    # == gp diagrams    re-render docs/diagrams/*.svg -> *.png
+nix run .#docs-build  # == gp docs-build  static mkdocs build (CI/Pages)
+nix run .#docs-pdf    # == gp docs-pdf    render transcript.md -> transcript.pdf
 ```
 
 All of the above are also wired into `.pre-commit-config.yaml` and CI

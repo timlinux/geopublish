@@ -228,6 +228,19 @@ def docs_serve() -> None:
     subprocess.run([str(REPO_ROOT / "scripts" / "docs.sh")], check=True)
 
 
+@cli.command("docs-build")
+def docs_build() -> None:
+    """Build the static mkdocs site (docs/ -> site/). Used by CI to
+    publish GitHub Pages; same entrypoint as 'nix run .#docs-build'."""
+    subprocess.run([str(REPO_ROOT / "scripts" / "docs-build.sh")], check=True)
+
+
+@cli.command("docs-pdf")
+def docs_pdf() -> None:
+    """Render docs/transcript.md to transcript.pdf via pandoc + weasyprint."""
+    subprocess.run([str(REPO_ROOT / "scripts" / "docs-pdf.sh")], check=True)
+
+
 @cli.command("test")
 def test_cmd() -> None:
     """Run the pytest suite. Same entrypoint as 'nix run .#test'."""

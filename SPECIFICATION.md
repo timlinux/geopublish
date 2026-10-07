@@ -35,6 +35,9 @@ viewable in QGIS without typing credentials into QGIS itself.
    polygons, with whatever printed annotation is nearby attached as an
    attribute, since vector features are lighter to query than a raster
    scan of the same drawing.
+9. **As Tim**, I want a record of every prompt that built this project
+   and the requirement each one introduced, exportable as a PDF, so the
+   session's decisions are traceable after the fact.
 
 ## Out of scope (v0.1)
 
@@ -209,6 +212,7 @@ Diagram source: `docs/diagrams/pdf-vector-tables.svg`.
 | FR8 | `geopublish prepare pdf-to-geotiff <pdf-or-folder> --output-dir <dir>` rasterizes each page of each PDF, clips it to its drawn map frame, and georeferences it to a GeoTIFF. The frame (PDF-point bbox) is detected from the largest non-full-page `fill="none"` rectangle in the page's SVG export; the real-world bbox is detected from printed zone-prefixed-easting/northing text labels (German decimal-comma format). `--utm-zone`/`--srs` override the default (zone 32, EPSG:25832). A sheet missing its coordinate labels is reported as failed without aborting the rest of a batch. |
 | FR9 | `geopublish capitals load` loads the world's national capitals (Natural Earth, public domain, no API key) into a `capitals` table. `geopublish capitals refresh-weather` fetches each row's current temperature from Open-Meteo (free, no API key) and updates `temperature`/`temperature_updated_at` in place; one city's fetch failing doesn't stop the rest. |
 | FR10 | `geopublish publish pdf-vectors <pdf-or-folder>` extracts point/line/polygon geometry directly from a PDF's drawing commands (classified by fill: filled → polygon, unfilled-stroked → line, very small → point) and loads it into shared `points`/`lines`/`polygons` tables, with `--srid`/`--utm-zone` matching `prepare pdf-to-geotiff`. The nearest printed text label (words merged into lines by proximity, then matched within a kind-specific radius) is attached as `label`; a feature with no close-enough text gets `label = NULL`. One bad page doesn't abort the rest of a batch. |
+| FR11 | `docs/transcript.md` records every prompt from this project's build session with the requirement/fix it introduced, alongside `docs/diagrams/requirements-timeline.svg` tracing the distinct ones. `geopublish docs-pdf` renders the transcript page to `transcript.pdf` (pandoc → HTML → weasyprint). `geopublish docs-build` produces the static mkdocs site for CI/Pages publishing. |
 
 ## Non-functional requirements
 
