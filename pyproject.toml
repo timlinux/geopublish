@@ -1,0 +1,16 @@
+# SPDX-FileCopyrightText: 2026 Kartoza
+# SPDX-License-Identifier: MIT
+
+[tool.black]
+line-length = 88
+
+[tool.ruff]
+line-length = 88
+src = ["src", "tests"]
+
+[tool.ruff.lint]
+select = ["E", "F", "I"]
+
+[tool.pytest.ini_options]
+pythonpath = ["src"]
+testpaths = ["tests"]

@@ -1,0 +1,16 @@
+# Copy to pg_service.conf (gitignored), fill in real values, then point QGIS
+# and psql at it:
+#
+#   export PGSERVICEFILE="$PWD/config/pg_service.conf"
+#
+# In QGIS: Browser panel -> PostgreSQL -> New Connection -> "Basic" tab ->
+# tick "Service" and enter "workshop" as the service name. QGIS reads
+# PGSERVICEFILE from the environment it was launched in.
+
+[workshop]
+host=localhost
+port=5432
+dbname=workshop
+user=workshop
+password=
+sslmode=prefer

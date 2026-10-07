@@ -1,0 +1,40 @@
+# SPDX-FileCopyrightText: 2026 Kartoza
+# SPDX-License-Identifier: MIT
+repos:
+  - repo: local
+    hooks:
+      - id: black
+        name: black
+        entry: black
+        language: system
+        types: [python]
+
+      - id: ruff
+        name: ruff
+        entry: ruff check --fix
+        language: system
+        types: [python]
+
+      - id: codespell
+        name: codespell
+        entry: codespell
+        language: system
+        types: [text]
+
+      - id: reuse-lint
+        name: reuse lint
+        entry: reuse lint
+        language: system
+        pass_filenames: false
+
+      - id: gitleaks
+        name: gitleaks
+        entry: gitleaks protect --staged --verbose --redact
+        language: system
+        pass_filenames: false
+
+      - id: trailing-whitespace
+        name: trailing whitespace
+        entry: bash -c 'grep -rIl " $" "$@" && exit 1 || exit 0'
+        language: system
+        types: [text]

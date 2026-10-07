@@ -1,0 +1,16 @@
+version = 1
+
+[[annotations]]
+path = [
+  "README.md",
+  "SPECIFICATION.md",
+  "PACKAGES.md",
+  "CHANGELOG.md",
+  "docs/**",
+  ".gitignore",
+  ".env.example",
+  "config/pg_service.conf.example",
+  "flake.lock",
+]
+SPDX-FileCopyrightText = "2026 Kartoza"
+SPDX-License-Identifier = "MIT"

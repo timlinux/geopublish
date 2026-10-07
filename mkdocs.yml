@@ -1,0 +1,12 @@
+# SPDX-FileCopyrightText: 2026 Kartoza
+# SPDX-License-Identifier: MIT
+site_name: geopublish
+site_description: Publish vector and raster data to PostGIS, view in QGIS.
+theme:
+  name: material
+
+nav:
+  - Overview: index.md
+  - User guide: user/index.md
+  - Administrator guide: admin/index.md
+  - Developer guide: developer/index.md
