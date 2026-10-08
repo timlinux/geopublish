@@ -24,6 +24,7 @@
             pytest
             mkdocs
             mkdocs-material
+            weasyprint
           ]
         );
 
@@ -32,13 +33,12 @@
         devTools = [
           pythonEnv
           pkgs.gdal
-          pkgs.poppler_utils
+          pkgs.poppler-utils
           pkgs.postgresql_16
           postgis
           pkgs.qgis
           pkgs.inkscape
           pkgs.pandoc
-          pkgs.weasyprint
           pkgs.chafa
           pkgs.pre-commit
           pkgs.black
