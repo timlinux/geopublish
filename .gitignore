@@ -22,6 +22,9 @@ transcript.pdf
 # generated GeoTIFFs from `gp prepare pdf-to-geotiff`
 geotiff/
 
+# non-shareable source planning docs
+PLANS/
+
 # screenshots
 screenshost-gitignore/
 
